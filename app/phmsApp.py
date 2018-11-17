@@ -1,7 +1,9 @@
 import os
 from sensors.THSensor import THSensor
+from sensors.OledDisplay import OLEDDisplay 
 
-THSens = THSensor() 
+THSens = THSensor()
+Disp = OLEDDisplay()
 
 def dumpBoardInfo():
     print '----------------------'
@@ -11,8 +13,8 @@ def dumpBoardInfo():
 def main():
     print '---start----'
     dumpBoardInfo()
-
-
+    Disp.setupDisplay()
+    Disp.testDisplay();
 
 if __name__ == '__main__':
     main()
