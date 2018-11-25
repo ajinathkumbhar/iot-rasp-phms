@@ -21,14 +21,14 @@ GYRO_ZOUT_H  = 0x47
 bus = smbus.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
 Device_Address = 0x68   # MPU6050 device address
 
-class MPU6050GryroAcc:
+class MPU6050GryroAccSensor:
     def __init__(self):
         self.name = "MPU6050 gryo acclerometer"
 
-    def setup():
-        MPU_Init()
+    def setup(self):
+        self.MPU_Init()
         
-    def MPU_Init():
+    def MPU_Init(self):
 	#write to sample rate register
 	bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
 	
@@ -44,7 +44,7 @@ class MPU6050GryroAcc:
 	#Write to interrupt enable register
 	bus.write_byte_data(Device_Address, INT_ENABLE, 1)
 
-    def read_raw_data(addr):
+    def read_raw_data(self,addr):
 	#Accelero and Gyro value are 16-bit
         high = bus.read_byte_data(Device_Address, addr)
         low = bus.read_byte_data(Device_Address, addr+1)
@@ -57,28 +57,27 @@ class MPU6050GryroAcc:
                 value = value - 65536
         return value
     
-    def getData():
+    def getData(self):
+        sensValues={}
         #Read Accelerometer raw value
-	acc_x = read_raw_data(ACCEL_XOUT_H)
-	acc_y = read_raw_data(ACCEL_YOUT_H)
-	acc_z = read_raw_data(ACCEL_ZOUT_H)
+	acc_x = self.read_raw_data(ACCEL_XOUT_H)
+	acc_y = self.read_raw_data(ACCEL_YOUT_H)
+	acc_z = self.read_raw_data(ACCEL_ZOUT_H)
 	
 	#Read Gyroscope raw value
-	gyro_x = read_raw_data(GYRO_XOUT_H)
-	gyro_y = read_raw_data(GYRO_YOUT_H)
-	gyro_z = read_raw_data(GYRO_ZOUT_H)
+	gyro_x = self.read_raw_data(GYRO_XOUT_H)
+	gyro_y = self.read_raw_data(GYRO_YOUT_H)
+	gyro_z = self.read_raw_data(GYRO_ZOUT_H)
 	
 	#Full scale range +/- 250 degree/C as per sensitivity scale factor
-	Ax = acc_x/16384.0
-	Ay = acc_y/16384.0
-	Az = acc_z/16384.0
+	sensValues['Ax'] = acc_x/16384.0
+	sensValues['Ay'] = acc_y/16384.0
+	sensValues['Az'] = acc_z/16384.0
+    
+	sensValues['Gx'] = gyro_x/131.0
+	sensValues['Gy'] = gyro_y/131.0
+	sensValues['Gz'] = gyro_z/131.0
 	
-	Gx = gyro_x/131.0
-	Gy = gyro_y/131.0
-	Gz = gyro_z/131.0
-	
-
-	#print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az) 	
-        print ("Gx=%.2f" %Gx, "Gy=%.2f" %Gy, "Gz=%.2f" %Gz, "Ax=%.2f g" %Ax, "Ay=%.2f g" %Ay, "Az=%.2f g" %Az)
-        #print 'Gyro : x={0:2f} y={1:2f} z={2:2f}  --- Acc : x={3:2f} y={4:2f} z={5:2f}'.format(Gx, Gy, Gz, Gx, Gy, Gz)
-
+        #print ("Gx=%.2f" %sensValues['Gx'], "Gy=%.2f" %sensValues['Gy'], "Gz=%.2f" %sensValues['Gz'])
+        #print ("Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
+        return sensValues 
