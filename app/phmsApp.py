@@ -28,15 +28,15 @@ class SensData:
     def __init__(self):
         self.clear()
     def clear(self):
-        self.temp = None
-        self.humi = None
-        self.Gx = None
-        self.Gy = None
-        self.Gz = None
-        self.Ax = None
-        self.Ay = None
-        self.Az = None
-        self.hbeat = None
+        self.temp = 0
+        self.humi = 0
+        self.Gx = 0
+        self.Gy = 0
+        self.Gz = 0
+        self.Ax = 0
+        self.Ay = 0
+        self.Az = 0
+        self.hbeat = 0
     def getTemp(self):
         return self.temp
     def getHumidity(self):
@@ -138,16 +138,18 @@ def getSensorData():
     dTH = {}
     dGA = {}
     hbeat = None
+    sdPrevious = SensData()
+    sdCurrent  = SensData()
+
     while True:
         sd = SensData()
+        sdCurrent = sd
         if qTH.empty() is not True:
             dTH = qTH.get()
-            #print dTH
             sd.temp = dTH['t']
             sd.humi = dTH['h']
         if qGA.empty() is not True:
             dGA = qGA.get()
-            #print dGA
             sd.Gx = dGA['Gx']
             sd.Gy = dGA['Gy']
             sd.Gz = dGA['Gz']
@@ -158,7 +160,28 @@ def getSensorData():
             hbeat = qHB.get()
             sd.hbeat = hbeat
 
+        if sd.temp is 0:
+            sd.temp = sdPrevious.temp
+        if sd.humi is 0:
+            sd.humi = sdPrevious.humi
+
+        if sd.Gx is 0:
+            sd.Gx = sdPrevious.Gx
+        if sd.Gy is 0:
+            sd.Gy = sdPrevious.Gy
+        if sd.Gz is 0:
+            sd.Gz = sdPrevious.Gz
+        if sd.Ax is 0:
+            sd.Ax = sdPrevious.Ax
+        if sd.Ay is 0:
+            sd.Ay = sdPrevious.Ay
+        if sd.Az is 0:
+            sd.Az = sdPrevious.Az
+        if sd.hbeat is 0:
+            sd.hbeat = sdPrevious.hbeat
+
         qSensorData.put(sd)
+        sdPrevious = sd
         time.sleep(1)
     print 'Exit : getSensorData'
 
@@ -176,6 +199,9 @@ def main():
     startSensorsThreads()
     getSensorData()
     print 'Exit : main'
+
+
+
 
 if __name__ == '__main__':
     main()
