@@ -4,6 +4,7 @@ import time
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from sensors.SensorUtils import SensData
 
 import subprocess
 
@@ -42,13 +43,15 @@ x = 0
 # Load default font.
 font = ImageFont.load_default()
 
+ROW_MIDDLE = (128/2 - 1)
+COL_MIDDLE = (64/2 - 1)
 
 
 class OLEDDisplay:
     def __init__(self):
         self.name = 'SD1306'
         self.disp = None
-            
+
     def setupDisplay(self):
         print 'setupDisplay ---ok'
 
@@ -79,3 +82,30 @@ class OLEDDisplay:
             disp.image(image)
             disp.display()
             time.sleep(.1)
+
+    def showWithDefaultTheme(self,sd):
+        print 'From display class'
+        print 'temperature : ' + str(sd.temp)
+        print 'humidity    : ' + str(sd.humi)
+        print 'Gx          : ' + str(sd.Gx)
+        print 'Gy          : ' + str(sd.Gy)
+        print 'Gz          : ' + str(sd.Gz)
+        print 'Ax          : ' + str(sd.Ax)
+        print 'Ay          : ' + str(sd.Ay)
+        print 'Az          : ' + str(sd.Az)
+        print 'Pulses      : ' + str(sd.hbeat)
+        draw.rectangle((0,0,width,height), outline=0, fill=0)
+        draw.text((x, top),"Temp: " + str(sd.temp),  font=font, fill=255)
+        draw.text((x + ROW_MIDDLE, top),"Humi: " + str(sd.humi),  font=font, fill=255)
+        draw.text((x, top + 8), "Gx: " + str(sd.Gx),  font=font, fill=255)
+        draw.text((x, top + 16),"Gy: " + str(sd.Gy),  font=font, fill=255)
+        draw.text((x, top + 24),"Gz: " + str(sd.Gz),  font=font, fill=255)
+        draw.text((x, top + 32),"Ax: " + str(sd.Ax),  font=font, fill=255)
+        draw.text((x, top + 40),"Ay: " + str(sd.Ay),  font=font, fill=255)
+        draw.text((x, top + 48),"Az: " + str(sd.Az),  font=font, fill=255)
+        draw.text((x, top + 56),"HB: " + str(sd.hbeat),  font=font, fill=255)
+        # Display image.
+        disp.image(image)
+        disp.display()
+        time.sleep(.1)
+

@@ -2,12 +2,13 @@ import os
 from sensors.THSensor import THSensor
 from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
 from sensors.OledDisplay import OLEDDisplay
+from sensors.SensorUtils import SensData
 import threading
 import Queue
 import time
 import signal
 import sys
-
+import random
 
 THSens = THSensor()
 GyroAcc = MPU6050GryroAccSensor()
@@ -15,36 +16,13 @@ Disp = OLEDDisplay()
 
 # queue
 qTH = Queue.Queue(maxsize=1)
-qGA = Queue.Queue(maxsize=10)
-qHB = Queue.Queue(maxsize=2)
-qSensorData = Queue.Queue(maxsize=10)
+qGA = Queue.Queue(maxsize=1)
+qHB = Queue.Queue(maxsize=1)
+qSensorData = Queue.Queue(maxsize=1)
 
 # thread list
 lThreadsID = []
 
-
-
-class SensData:
-    def __init__(self):
-        self.clear()
-    def clear(self):
-        self.temp = 0
-        self.humi = 0
-        self.Gx = 0
-        self.Gy = 0
-        self.Gz = 0
-        self.Ax = 0
-        self.Ay = 0
-        self.Az = 0
-        self.hbeat = 0
-    def getTemp(self):
-        return self.temp
-    def getHumidity(self):
-        return self.humi
-    def getGyroCoordinate(self):
-        return self.Gx, Self.Gy, Self.Gz
-    def getAccCoordinate(self):
-        return self.Ax, Self.Ay, Self.Az
 
 def signalHandler(sig,frame):
     print 'You pressed ctrl+c'
@@ -81,16 +59,16 @@ def getGyroAccSensData():
         #print ("main Gx=%.2f" %sensValues['Gx'], "Gy=%.2f" %sensValues['Gy'], "Gz=%.2f" %sensValues['Gz'])
         #print ("main Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
         qGA.put(sensValues)
-        time.sleep(1)
+        time.sleep(.1)
     print 'Exit : getGyroAccSensData'
 
 def getHBSensData():
     print 'Enter : getHBSensData'
     while True :
-        hbeats = str(32)
+        hbeats = str(random.randint(65,82))
         #print 'hbeats: ' + hbeats
         qHB.put(hbeats)
-        time.sleep(1)
+        time.sleep(.1)
     print 'Exit : getHBSensData'
 
 
@@ -100,16 +78,8 @@ def displaySensorData():
         if qSensorData.empty():
             continue
         sd = qSensorData.get()
-        time.sleep(1)
-        print 'temperature : ' + str(sd.temp)
-        print 'humidity    : ' + str(sd.humi)
-        print 'Gx          : ' + str(sd.Gx)
-        print 'Gy          : ' + str(sd.Gy)
-        print 'Gz          : ' + str(sd.Gz)
-        print 'Ax          : ' + str(sd.Ax)
-        print 'Ay          : ' + str(sd.Ay)
-        print 'Az          : ' + str(sd.Az)
-        print 'Pulses      : ' + str(sd.hbeat)
+        Disp.showWithDefaultTheme(sd)
+        time.sleep(.1)
     print 'Exit : displaySensorData'
 
 
@@ -182,7 +152,7 @@ def getSensorData():
 
         qSensorData.put(sd)
         sdPrevious = sd
-        time.sleep(1)
+        time.sleep(.1)
     print 'Exit : getSensorData'
 
 
@@ -194,8 +164,8 @@ def main():
     print '---start----'
     dumpBoardInfo()
     Disp.setupDisplay()
-    GyroAcc.setup()
     #Disp.testDisplay()
+    GyroAcc.setup()
     startSensorsThreads()
     getSensorData()
     print 'Exit : main'
