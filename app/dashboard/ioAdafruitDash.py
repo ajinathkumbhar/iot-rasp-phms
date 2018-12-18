@@ -67,12 +67,13 @@ class ioAdafruitDash():
             time.sleep(.5)
    
       
-    def send(self,temp,data):
+    def update(self,dSd):
+        print dSd
         if not self.mClient.is_connected():
             print 'Client not connected ... Check setupClient'
             return
         
-        self.mClient.publish('DemoFeed', 555)
+        self.mClient.publish('DemoFeed', dSd.Gx)
                 
 
 

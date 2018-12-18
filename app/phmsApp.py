@@ -3,6 +3,7 @@ from sensors.THSensor import THSensor
 from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
 from sensors.OledDisplay import OLEDDisplay
 from sensors.SensorUtils import SensData
+from dashboard.ioAdafruitDash import ioAdafruitDash
 import threading
 import Queue
 import time
@@ -13,6 +14,7 @@ import random
 THSens = THSensor()
 GyroAcc = MPU6050GryroAccSensor()
 Disp = OLEDDisplay()
+dashboard = ioAdafruitDash()
 
 # queue
 qTH = Queue.Queue(maxsize=1)
@@ -82,6 +84,8 @@ def displaySensorData():
         time.sleep(.1)
     print 'Exit : displaySensorData'
 
+def updateDashboard(sd):
+    dashboard.update(sd)
 
 def startSensorsThreads():
     # Create threads
@@ -102,72 +106,73 @@ def startSensorsThreads():
     GyroAccThread.start()
     HBThread.start()
 
-def getSensorData():
+def getSensorData(sd):
     print ' '
     print 'Enter : getSensorData'
     dTH = {}
     dGA = {}
     hbeat = None
-    sdPrevious = SensData()
-    sdCurrent  = SensData()
 
-    while True:
-        sd = SensData()
-        sdCurrent = sd
-        if qTH.empty() is not True:
-            dTH = qTH.get()
-            sd.temp = dTH['t']
-            sd.humi = dTH['h']
-        if qGA.empty() is not True:
-            dGA = qGA.get()
-            sd.Gx = dGA['Gx']
-            sd.Gy = dGA['Gy']
-            sd.Gz = dGA['Gz']
-            sd.Ax = dGA['Ax']
-            sd.Ay = dGA['Ay']
-            sd.Az = dGA['Az']
-        if qHB.empty() is not True:
-            hbeat = qHB.get()
-            sd.hbeat = hbeat
+    if qTH.empty() is not True:
+        dTH = qTH.get()
+        sd.temp = dTH['t']
+        sd.humi = dTH['h']
+    if qGA.empty() is not True:
+        dGA = qGA.get()
+        sd.Gx = dGA['Gx']
+        sd.Gy = dGA['Gy']
+        sd.Gz = dGA['Gz']
+        sd.Ax = dGA['Ax']
+        sd.Ay = dGA['Ay']
+        sd.Az = dGA['Az']
+    if qHB.empty() is not True:
+        hbeat = qHB.get()
+        sd.hbeat = hbeat
 
-        if sd.temp is 0:
-            sd.temp = sdPrevious.temp
-        if sd.humi is 0:
-            sd.humi = sdPrevious.humi
+    if sd.temp is 0:
+        sd.temp = sd.temp
+    if sd.humi is 0:
+        sd.humi = sd.humi
 
-        if sd.Gx is 0:
-            sd.Gx = sdPrevious.Gx
-        if sd.Gy is 0:
-            sd.Gy = sdPrevious.Gy
-        if sd.Gz is 0:
-            sd.Gz = sdPrevious.Gz
-        if sd.Ax is 0:
-            sd.Ax = sdPrevious.Ax
-        if sd.Ay is 0:
-            sd.Ay = sdPrevious.Ay
-        if sd.Az is 0:
-            sd.Az = sdPrevious.Az
-        if sd.hbeat is 0:
-            sd.hbeat = sdPrevious.hbeat
+    if sd.Gx is 0:
+        sd.Gx = sd.Gx
+    if sd.Gy is 0:
+        sd.Gy = sd.Gy
+    if sd.Gz is 0:
+        sd.Gz = sd.Gz
+    if sd.Ax is 0:
+        sd.Ax = sd.Ax
+    if sd.Ay is 0:
+        sd.Ay = sd.Ay
+    if sd.Az is 0:
+        sd.Az = sd.Az
+    if sd.hbeat is 0:
+        sd.hbeat = sd.hbeat
 
-        qSensorData.put(sd)
-        sdPrevious = sd
-        time.sleep(.1)
     print 'Exit : getSensorData'
 
+def init():
+    dashboard.setupClient()
+    dumpBoardInfo()
+    Disp.setupDisplay()
+    GyroAcc.setup()
+    startSensorsThreads()
 
+def captureSensorDataAndUpdateToDashboard():
+    while True:
+        sdCurrent = SensData()
+        getSensorData(sdCurrent)
+        qSensorData.put(sdCurrent)
+        updateDashboard(sdCurrent)
+        sdPrevious = sdCurrent
+        time.sleep(.5)
 
 def main():
     print 'Enter : main'
-
-    signal.signal(signal.SIGINT,signalHandler)
     print '---start----'
-    dumpBoardInfo()
-    Disp.setupDisplay()
-    #Disp.testDisplay()
-    GyroAcc.setup()
-    startSensorsThreads()
-    getSensorData()
+    signal.signal(signal.SIGINT,signalHandler)
+    init()
+    captureSensorDataAndUpdateToDashboard()
     print 'Exit : main'
 
 
