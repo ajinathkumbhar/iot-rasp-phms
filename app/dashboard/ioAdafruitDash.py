@@ -7,6 +7,14 @@ import time
 # Import Adafruit IO MQTT client.
 from Adafruit_IO import MQTTClient
 
+#----------------------------------------
+
+feedTemp        = 'phmstempstatus'
+feedHumi        = 'phmshumistatus'
+feedPulse       = 'phmspulsestatus'
+feedAccGyro     = 'phmsaccgyrostatus'
+
+
 # Set to your Adafruit IO key.
 # Remember, your key is a secret,
 # so make sure not to publish it when you publish this code!
@@ -16,8 +24,7 @@ ADAFRUIT_IO_KEY = 'ce57f54de4464c2e8b2d2cccb2968072'
 # (go to https://accounts.adafruit.com to find your username)
 ADAFRUIT_IO_USERNAME = 'ajinathkumbhar'
 isClientConnected = False
-# Create an MQTT mClient instance.
-#mClient = MQTTClient(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
 
 # Define callback functions which will be called when certain events happen.
 def connected(client):
@@ -32,16 +39,6 @@ def disconnected(client):
 
 def message(client, feed_id, payload):
     print('Feed {0} received new value: {1}'.format(feed_id, payload))
-
-
-
-# Now send new values every 10 seconds.
-#print('Publishing a new message every 10 seconds (press Ctrl-C to quit)...')
-#while True:
-#    value = random.randint(0, 100)
-#    print('Publishing {0} to DemoFeed.'.format(value))
-#    mClient.publish('DemoFeed', value)
-#    time.sleep(10)
 
 
 class ioAdafruitDash():
@@ -67,13 +64,13 @@ class ioAdafruitDash():
             time.sleep(.5)
    
       
-    def update(self,dSd):
-        print dSd
+    def update(self,sd):
         if not self.mClient.is_connected():
             print 'Client not connected ... Check setupClient'
             return
+        print '--------update ---------'
+        self.mClient.publish(feedTemp, sd.temp)
+        self.mClient.publish(feedHumi, sd.humi)
+        self.mClient.publish(feedPulse, sd.hbeat)
+        self.mClient.publish(feedAccGyro, sd.Az)
         
-        self.mClient.publish('DemoFeed', dSd.Gx)
-                
-
-

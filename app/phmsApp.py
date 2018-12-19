@@ -165,7 +165,7 @@ def captureSensorDataAndUpdateToDashboard():
         qSensorData.put(sdCurrent)
         updateDashboard(sdCurrent)
         sdPrevious = sdCurrent
-        time.sleep(.5)
+        time.sleep(8)
 
 def main():
     print 'Enter : main'
