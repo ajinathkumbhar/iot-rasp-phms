@@ -1,7 +1,7 @@
 import os
 from sensors.THSensor import THSensor
 from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
-from sensors.OledDisplay import OLEDDisplay
+from display.OledDisplay import OLEDDisplay
 from sensors.SensorUtils import SensData
 from dashboard.ioAdafruitDash import ioAdafruitDash
 import threading
