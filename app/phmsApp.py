@@ -3,13 +3,13 @@ from sensors.THSensor import THSensor
 from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
 from display.OledDisplay import OLEDDisplay
 from sensors.SensorUtils import SensData
+import sensors.pulse as pulse
 from dashboard.ioAdafruitDash import ioAdafruitDash
 import threading
 import Queue
 import time
 import signal
 import sys
-import random
 
 THSens = THSensor()
 GyroAcc = MPU6050GryroAccSensor()
@@ -51,8 +51,6 @@ def getTHSensData():
         #print('main Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(dHT['t'], dHT['h']))
         qTH.put(dHT)
 
-    print 'Exit : getTHSensData'
-
 def getGyroAccSensData():
     print 'Enter : getGyroAccSensData'
     dHT = {}
@@ -62,16 +60,17 @@ def getGyroAccSensData():
         #print ("main Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
         qGA.put(sensValues)
         time.sleep(.1)
-    print 'Exit : getGyroAccSensData'
 
 def getHBSensData():
     print 'Enter : getHBSensData'
-    while True :
-        hbeats = str(random.randint(65,82))
-        #print 'hbeats: ' + hbeats
-        qHB.put(hbeats)
+    q_pulse = Queue.Queue(maxsize=1)
+    pulse_thread = threading.Thread(target=pulse.get_count, name='displaySensorData', args=(q_pulse,))
+    lThreadsID.append(pulse_thread)
+    pulse_thread.start()
+    while True:
+        if not q_pulse.empty():
+            qHB.put(str(q_pulse.get()))
         time.sleep(.1)
-    print 'Exit : getHBSensData'
 
 
 def displaySensorData():
@@ -82,7 +81,6 @@ def displaySensorData():
         sd = qSensorData.get()
         Disp.showWithDefaultTheme(sd)
         time.sleep(.1)
-    print 'Exit : displaySensorData'
 
 def updateDashboard(sd):
     dashboard.update(sd)
