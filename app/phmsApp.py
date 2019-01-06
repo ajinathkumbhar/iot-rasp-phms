@@ -26,7 +26,7 @@ qSensorData = Queue.Queue(maxsize=1)
 lThreadsID = []
 
 
-def signalHandler(sig,frame):
+def signalHandler(sig, frame):
     print 'You pressed ctrl+c'
     print lThreadsID
     if len(lThreadsID) == 0:
@@ -36,10 +36,12 @@ def signalHandler(sig,frame):
         threadId._Thread__stop()
     sys.exit(0)
 
+
 def dumpBoardInfo():
     print '----------------------'
     print '1. ' + THSens.getSensorName()
     print '----------------------'
+
 
 def getTHSensData():
     print 'Enter : getTHSensData'
@@ -48,27 +50,29 @@ def getTHSensData():
         h, t = THSens.getTHdata()
         dHT['t'] = t
         dHT['h'] = h
-        #print('main Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(dHT['t'], dHT['h']))
+        # print('main Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(dHT['t'], dHT['h']))
         qTH.put(dHT)
 
     print 'Exit : getTHSensData'
 
+
 def getGyroAccSensData():
     print 'Enter : getGyroAccSensData'
     dHT = {}
-    while True :
+    while True:
         sensValues = GyroAcc.getData()
-        #print ("main Gx=%.2f" %sensValues['Gx'], "Gy=%.2f" %sensValues['Gy'], "Gz=%.2f" %sensValues['Gz'])
-        #print ("main Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
+        # print ("main Gx=%.2f" %sensValues['Gx'], "Gy=%.2f" %sensValues['Gy'], "Gz=%.2f" %sensValues['Gz'])
+        # print ("main Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
         qGA.put(sensValues)
         time.sleep(.1)
     print 'Exit : getGyroAccSensData'
 
+
 def getHBSensData():
     print 'Enter : getHBSensData'
-    while True :
-        hbeats = str(random.randint(65,82))
-        #print 'hbeats: ' + hbeats
+    while True:
+        hbeats = str(random.randint(65, 82))
+        # print 'hbeats: ' + hbeats
         qHB.put(hbeats)
         time.sleep(.1)
     print 'Exit : getHBSensData'
@@ -84,8 +88,10 @@ def displaySensorData():
         time.sleep(.1)
     print 'Exit : displaySensorData'
 
+
 def updateDashboard(sd):
     dashboard.update(sd)
+
 
 def startSensorsThreads():
     # Create threads
@@ -105,6 +111,7 @@ def startSensorsThreads():
     THThread.start()
     GyroAccThread.start()
     HBThread.start()
+
 
 def getSensorData(sd):
     print ' '
@@ -151,12 +158,14 @@ def getSensorData(sd):
 
     print 'Exit : getSensorData'
 
+
 def init():
     dashboard.setupClient()
     dumpBoardInfo()
     Disp.setupDisplay()
     GyroAcc.setup()
     startSensorsThreads()
+
 
 def captureSensorDataAndUpdateToDashboard():
     while True:
@@ -167,15 +176,14 @@ def captureSensorDataAndUpdateToDashboard():
         sdPrevious = sdCurrent
         time.sleep(8)
 
+
 def main():
     print 'Enter : main'
     print '---start----'
-    signal.signal(signal.SIGINT,signalHandler)
+    signal.signal(signal.SIGINT, signalHandler)
     init()
     captureSensorDataAndUpdateToDashboard()
     print 'Exit : main'
-
-
 
 
 if __name__ == '__main__':
