@@ -77,493 +77,483 @@
   )
   )
   (network_out
-   (Net #00004 
-   (rule
-   )
-   (wire (path BOT 63499  -5461000 -2032000 -5461000 1524000)
-    (connect (terminal pin J11-4) (terminal pin J1-4))
-   )
-   )
    (Net #00005 
    (rule
    )
-   (wire (path BOT 63499  -5207000 1524000 -5207000 -2032000)
-    (connect (terminal pin J1-5) (terminal pin J11-5))
+   (wire (path BOT 63499  -5207000 -2032000 -5207000 1524000)
+    (connect (terminal pin "J11 PI-L"-5) (terminal pin "J1 T-COBBLER-L"-5))
    )
    )
    (Net #00006 
    (rule
    )
    (wire (path BOT 63499  -4953000 1524000 -4953000 -2032000)
-    (connect (terminal pin J1-6) (terminal pin J11-6))
+    (connect (terminal pin "J1 T-COBBLER-L"-6) (terminal pin "J11 PI-L"-6))
    )
    )
    (Net #00007 
    (rule
    )
    (wire (path BOT 63499  -4699000 1524000 -4699000 -2032000)
-    (connect (terminal pin J1-7) (terminal pin J11-7))
+    (connect (terminal pin "J1 T-COBBLER-L"-7) (terminal pin "J11 PI-L"-7))
    )
    )
    (Net #00008 
    (rule
    )
    (wire (path BOT 63499  -4445000 1524000 -4445000 -2032000)
-    (connect (terminal pin J1-8) (terminal pin J11-8))
+    (connect (terminal pin "J1 T-COBBLER-L"-8) (terminal pin "J11 PI-L"-8))
    )
    )
    (Net #00009 
    (rule
    )
    (wire (path BOT 63499  -4191000 1524000 -4191000 -2032000)
-    (connect (terminal pin J1-9) (terminal pin J11-9))
+    (connect (terminal pin "J1 T-COBBLER-L"-9) (terminal pin "J11 PI-L"-9))
    )
    )
    (Net #00010 
    (rule
    )
    (wire (path BOT 63499  -3937000 1524000 -3937000 -2032000)
-    (connect (terminal pin J1-10) (terminal pin J11-10))
+    (connect (terminal pin "J1 T-COBBLER-L"-10) (terminal pin "J11 PI-L"-10))
    )
    )
    (Net #00011 
    (rule
    )
    (wire (path BOT 63499  -3683000 1524000 -3683000 -2032000)
-    (connect (terminal pin J1-11) (terminal pin J11-11))
+    (connect (terminal pin "J1 T-COBBLER-L"-11) (terminal pin "J11 PI-L"-11))
    )
    )
    (Net #00012 
    (rule
    )
    (wire (path BOT 63499  -3429000 1524000 -3429000 -2032000)
-    (connect (terminal pin J1-12) (terminal pin J11-12))
+    (connect (terminal pin "J1 T-COBBLER-L"-12) (terminal pin "J11 PI-L"-12))
    )
    )
    (Net #00021 
    (rule
    )
    (wire (path BOT 63499  -6223000 6223000 -6223000 3048000)
-    (connect (terminal pin J12-1) (terminal pin J2-1))
+    (connect (terminal pin "J12 PI-R"-1) (terminal pin "J2 T-COBBLER-R"-1))
    )
    )
    (Net #00022 
    (rule
    )
    (wire (path BOT 63499  -5969000 6223000 -5969000 3048000)
-    (connect (terminal pin J12-2) (terminal pin J2-2))
+    (connect (terminal pin "J12 PI-R"-2) (terminal pin "J2 T-COBBLER-R"-2))
    )
    )
    (Net #00023 
    (rule
    )
    (wire (path BOT 63499  -5715000 6223000 -5715000 3048000)
-    (connect (terminal pin J12-3) (terminal pin J2-3))
+    (connect (terminal pin "J12 PI-R"-3) (terminal pin "J2 T-COBBLER-R"-3))
    )
    )
    (Net #00024 
    (rule
    )
    (wire (path BOT 63499  -5461000 6223000 -5461000 3048000)
-    (connect (terminal pin J12-4) (terminal pin J2-4))
+    (connect (terminal pin "J12 PI-R"-4) (terminal pin "J2 T-COBBLER-R"-4))
    )
    )
    (Net #00025 
    (rule
    )
    (wire (path BOT 63499  -5207000 6223000 -5207000 3048000)
-    (connect (terminal pin J12-5) (terminal pin J2-5))
+    (connect (terminal pin "J12 PI-R"-5) (terminal pin "J2 T-COBBLER-R"-5))
    )
    )
    (Net #00026 
    (rule
    )
    (wire (path BOT 63499  -4953000 6223000 -4953000 3048000)
-    (connect (terminal pin J12-6) (terminal pin J2-6))
+    (connect (terminal pin "J12 PI-R"-6) (terminal pin "J2 T-COBBLER-R"-6))
    )
    )
    (Net #00027 
    (rule
    )
    (wire (path BOT 63499  -4699000 6223000 -4699000 3048000)
-    (connect (terminal pin J12-7) (terminal pin J2-7))
+    (connect (terminal pin "J12 PI-R"-7) (terminal pin "J2 T-COBBLER-R"-7))
    )
    )
    (Net #00028 
    (rule
    )
    (wire (path BOT 63499  -4445000 6223000 -4445000 3048000)
-    (connect (terminal pin J12-8) (terminal pin J2-8))
+    (connect (terminal pin "J12 PI-R"-8) (terminal pin "J2 T-COBBLER-R"-8))
    )
    )
    (Net #00029 
    (rule
    )
    (wire (path BOT 63499  -4191000 6223000 -4191000 3048000)
-    (connect (terminal pin J12-9) (terminal pin J2-9))
+    (connect (terminal pin "J12 PI-R"-9) (terminal pin "J2 T-COBBLER-R"-9))
    )
    )
    (Net #00030 
    (rule
    )
    (wire (path BOT 63499  -3937000 6223000 -3937000 3048000)
-    (connect (terminal pin J12-10) (terminal pin J2-10))
+    (connect (terminal pin "J12 PI-R"-10) (terminal pin "J2 T-COBBLER-R"-10))
    )
    )
    (Net #00031 
    (rule
    )
    (wire (path BOT 63499  -3683000 6223000 -3683000 3048000)
-    (connect (terminal pin J12-11) (terminal pin J2-11))
+    (connect (terminal pin "J12 PI-R"-11) (terminal pin "J2 T-COBBLER-R"-11))
    )
    )
    (Net #00032 
    (rule
    )
    (wire (path BOT 63499  -3429000 6223000 -3429000 3048000)
-    (connect (terminal pin J12-12) (terminal pin J2-12))
+    (connect (terminal pin "J12 PI-R"-12) (terminal pin "J2 T-COBBLER-R"-12))
    )
    )
    (Net #00040 
    (rule
    )
    (wire (path BOT 63499  3175000 4699000 3175000 254000)
-    (connect (terminal pin J3-0) (terminal pin J9-0))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-0) (terminal pin "J9 D-L"-0))
    )
    )
    (Net #00041 
    (rule
    )
    (wire (path BOT 63499  3429000 4699000 3429000 254000)
-    (connect (terminal pin J3-1) (terminal pin J9-1))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-1) (terminal pin "J9 D-L"-1))
    )
    )
    (Net #00042 
    (rule
    )
    (wire (path BOT 63499  3683000 4699000 3683000 254000)
-    (connect (terminal pin J3-2) (terminal pin J9-2))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-2) (terminal pin "J9 D-L"-2))
    )
    )
    (Net #00043 
    (rule
    )
    (wire (path BOT 63499  3937000 4699000 3937000 254000)
-    (connect (terminal pin J3-3) (terminal pin J9-3))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-3) (terminal pin "J9 D-L"-3))
    )
    )
    (Net #00044 
    (rule
    )
    (wire (path BOT 63499  3175000 4953000 3175000 6096000)
-    (connect (terminal pin J3-29) (terminal pin J10-0))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-29) (terminal pin "J10 D-R"-0))
    )
    )
    (Net #00045 
    (rule
    )
    (wire (path BOT 63499  3429000 4953000 3429000 6096000)
-    (connect (terminal pin J3-28) (terminal pin J10-1))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-28) (terminal pin "J10 D-R"-1))
    )
    )
    (Net #00046 
    (rule
    )
    (wire (path BOT 63499  3683000 4953000 3683000 6096000)
-    (connect (terminal pin J3-27) (terminal pin J10-2))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-27) (terminal pin "J10 D-R"-2))
    )
    )
    (Net #00047 
    (rule
    )
    (wire (path BOT 63499  3937000 4953000 3937000 6096000)
-    (connect (terminal pin J3-26) (terminal pin J10-3))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-26) (terminal pin "J10 D-R"-3))
    )
    )
    (Net #00048 
    (rule
    )
    (wire (path BOT 63499  4191000 4699000 4191000 254000)
-    (connect (terminal pin J3-4) (terminal pin J9-4))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-4) (terminal pin "J9 D-L"-4))
    )
    )
    (Net #00049 
    (rule
    )
    (wire (path BOT 63499  4191000 4953000 4191000 6096000)
-    (connect (terminal pin J3-25) (terminal pin J10-4))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-25) (terminal pin "J10 D-R"-4))
    )
    )
    (Net #00050 
    (rule
    )
    (wire (path BOT 63499  4445000 4699000 4445000 254000)
-    (connect (terminal pin J3-5) (terminal pin J9-5))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-5) (terminal pin "J9 D-L"-5))
    )
    )
    (Net #00051 
    (rule
    )
    (wire (path BOT 63499  4445000 4953000 4445000 6096000)
-    (connect (terminal pin J3-24) (terminal pin J10-5))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-24) (terminal pin "J10 D-R"-5))
    )
    )
    (Net #00052 
    (rule
    )
    (wire (path BOT 63499  4699000 4699000 4699000 254000)
-    (connect (terminal pin J3-6) (terminal pin J9-6))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-6) (terminal pin "J9 D-L"-6))
    )
    )
    (Net #00053 
    (rule
    )
    (wire (path BOT 63499  4699000 4953000 4699000 6096000)
-    (connect (terminal pin J3-23) (terminal pin J10-6))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-23) (terminal pin "J10 D-R"-6))
    )
    )
    (Net #00054 
    (rule
    )
    (wire (path BOT 63499  4953000 4699000 4953000 254000)
-    (connect (terminal pin J3-7) (terminal pin J9-7))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-7) (terminal pin "J9 D-L"-7))
    )
    )
    (Net #00055 
    (rule
    )
    (wire (path BOT 63499  4953000 4953000 4953000 6096000)
-    (connect (terminal pin J3-22) (terminal pin J10-7))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-22) (terminal pin "J10 D-R"-7))
    )
    )
    (Net #00056 
    (rule
    )
    (wire (path BOT 63499  5207000 4699000 5207000 254000)
-    (connect (terminal pin J3-8) (terminal pin J9-8))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-8) (terminal pin "J9 D-L"-8))
    )
    )
    (Net #00057 
    (rule
    )
    (wire (path BOT 63499  5207000 4953000 5207000 6096000)
-    (connect (terminal pin J3-21) (terminal pin J10-8))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-21) (terminal pin "J10 D-R"-8))
    )
    )
    (Net #00058 
    (rule
    )
    (wire (path BOT 63499  5461000 4699000 5461000 254000)
-    (connect (terminal pin J3-9) (terminal pin J9-9))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-9) (terminal pin "J9 D-L"-9))
    )
    )
    (Net #00059 
    (rule
    )
    (wire (path BOT 63499  5461000 4953000 5461000 6096000)
-    (connect (terminal pin J3-20) (terminal pin J10-9))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-20) (terminal pin "J10 D-R"-9))
    )
    )
    (Net #00060 
    (rule
    )
    (wire (path BOT 63499  5715000 4699000 5715000 254000)
-    (connect (terminal pin J3-10) (terminal pin J9-10))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-10) (terminal pin "J9 D-L"-10))
    )
    )
    (Net #00061 
    (rule
    )
    (wire (path BOT 63499  5715000 4953000 5715000 6096000)
-    (connect (terminal pin J3-19) (terminal pin J10-10))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-19) (terminal pin "J10 D-R"-10))
    )
    )
    (Net #00062 
    (rule
    )
    (wire (path BOT 63499  5969000 4699000 5969000 254000)
-    (connect (terminal pin J3-11) (terminal pin J9-11))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-11) (terminal pin "J9 D-L"-11))
    )
    )
    (Net #00063 
    (rule
    )
    (wire (path BOT 63499  5969000 4953000 5969000 6096000)
-    (connect (terminal pin J3-18) (terminal pin J10-11))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-18) (terminal pin "J10 D-R"-11))
    )
    )
    (Net #00064 
    (rule
    )
    (wire (path BOT 63499  6223000 4699000 6223000 254000)
-    (connect (terminal pin J3-12) (terminal pin J9-12))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-12) (terminal pin "J9 D-L"-12))
    )
    )
    (Net #00065 
    (rule
    )
    (wire (path BOT 63499  6223000 4953000 6223000 6096000)
-    (connect (terminal pin J3-17) (terminal pin J10-12))
-   )
-   )
-   (Net #00076 
-   (rule
-   )
-   (wire (path BOT 63499  2794000 -3429000 -508000 -3429000 -508000 -5969000
-     -254000 -5969000)
-    (connect (terminal pin J4-6) (terminal pin J5-0))
+    (connect (terminal pin "J3 TOUCH DISPLAY"-17) (terminal pin "J10 D-R"-12))
    )
    )
    (Net 3.3V 
    (rule
    )
-   (wire (path BOT 63499  2794000 -1905000 2794000 2222500 -762000 2222500)
-    (connect (terminal pin J4-0) (terminal wire))
+   (wire (path BOT 63499  -762000 1968500 2794000 1968500 2794000 -1905000)
+    (connect (terminal wire) (terminal pin "J4 ADS1115"-0))
    )
-   (wire (path BOT 63499  2794000 -1905000 3810606 -1905000 3810606 -1841500
-     7048500 -1841500 7048500 -6223000 4699000 -6223000 4699000 -5715000)
-    (connect (terminal pin J4-0) (terminal pin J8-0))
+   (wire (path BOT 63499  6604000 -2286000 4135822 -2286000 4135822 -1911351
+     2794000 -1911351 2794000 -1905000)
+    (connect (terminal pin "J7 OLED DISPLAY"-2) (terminal pin "J4 ADS1115"-0))
    )
-   (wire (path BOT 63499  -6477000 1524000 -6477000 2222500 -762000 2222500)
-    (connect (terminal pin J1-0) (terminal wire))
+   (wire (path BOT 63499  4699000 -5715000 4699000 -6032500 6921500 -6032500
+     6921500 -2286000 6604000 -2286000)
+    (connect (terminal pin "J8 MCP6050"-0) (terminal pin "J7 OLED DISPLAY"-2))
+   )
+   (wire (path BOT 63499  -762000 1968500 -6477000 1968500 -6477000 1524000)
+    (connect (terminal wire) (terminal pin "J1 T-COBBLER-L"-0))
    )
    (wire (path BOT 63499  -6477000 -2032000 -6477000 -5969000)
-    (connect (terminal pin J11-0) (terminal pin J6-2))
+    (connect (terminal pin "J11 PI-L"-0) (terminal pin "J6 DHT11"-2))
    )
-   (wire (path BOT 63499  -6477000 -2032000 -6477000 1524000)
-    (connect (terminal pin J11-0) (terminal pin J1-0))
+   (wire (path BOT 63499  -6477000 1524000 -6477000 -2032000)
+    (connect (terminal pin "J1 T-COBBLER-L"-0) (terminal pin "J11 PI-L"-0))
    )
-   (wire (path BOT 63499  -762000 5461000 -762000 2222500)
-    (connect (terminal pin J13-4) (terminal wire))
+   (wire (path BOT 63499  -762000 1968500 -762000 5461000)
+    (connect (terminal wire) (terminal pin "J13 POWER"-4))
    )
    (wire (path BOT 63499  -762000 5461000 -762000 5715000)
-    (connect (terminal pin J13-4) (terminal pin J13-3))
+    (connect (terminal pin "J13 POWER"-4) (terminal pin "J13 POWER"-3))
    )
    )
    (Net 5V 
    (rule
    )
    (wire (path BOT 63499  0 -5969000 0 -6159500 -6794500 -6159500
-     -6794500 3238500 -6477000 3238500)
-    (connect (terminal pin J5-1) (terminal wire))
-   )
-   (wire (path BOT 63499  -6477000 3238500 -6477000 3048000)
-    (connect (terminal wire) (terminal pin J2-0))
+     -6794500 2603500 -6477000 2603500 -6477000 3048000)
+    (connect (terminal pin "J5 PULSE SENSOR"-1) (terminal pin "J2 T-COBBLER-R"-0))
    )
    (wire (path BOT 63499  -6477000 6223000 -6477000 6477000 -762000 6477000)
-    (connect (terminal pin J12-0) (terminal pin J13-0))
+    (connect (terminal pin "J12 PI-R"-0) (terminal pin "J13 POWER"-0))
+   )
+   (wire (path BOT 63499  -6477000 3048000 -6477000 6223000)
+    (connect (terminal pin "J2 T-COBBLER-R"-0) (terminal pin "J12 PI-R"-0))
    )
    (wire (path BOT 63499  -762000 6223000 -762000 5969000)
-    (connect (terminal pin J13-1) (terminal pin J13-2))
+    (connect (terminal pin "J13 POWER"-1) (terminal pin "J13 POWER"-2))
    )
    (wire (path BOT 63499  -762000 6477000 -762000 6223000)
-    (connect (terminal pin J13-0) (terminal pin J13-1))
+    (connect (terminal pin "J13 POWER"-0) (terminal pin "J13 POWER"-1))
    )
-   (wire (path BOT 63499  -6477000 6223000 -6477000 3238500)
-    (connect (terminal pin J12-0) (terminal wire))
+   )
+   (Net A0 
+   (rule
    )
    )
    (Net GND 
    (rule
    )
-   (wire (path BOT 101600  4508500 -5778500 254000 -5778500)
+   (wire (path BOT 101600  2984500 -1333500 2984500 5461000 -508000 5461000)
+    (connect (terminal wire) (terminal pin "J13 POWER"-5))
+   )
+   (wire (path BOT 101600  6604000 -2032000 6032500 -2032000 6032500 -1333500
+     2984500 -1333500)
+    (connect (terminal pin "J7 OLED DISPLAY"-3) (terminal wire))
+   )
+   (wire (path BOT 101600  2984500 -1333500 2984500 -1524000)
     (connect (terminal wire) (terminal wire))
    )
-   (wire (path BOT 101600  -1651000 -5778500 254000 -5778500)
-    (connect (terminal wire) (terminal wire))
+   (wire (path BOT 101600  2984500 -1524000 2984500 -2159000 2794000 -2159000)
+    (connect (terminal wire) (terminal pin "J4 ADS1115"-1))
    )
-   (wire (path BOT 101600  254000 -5778500 254000 -5969000)
-    (connect (terminal wire) (terminal pin J5-2))
+   (wire (path BOT 101600  4381500 -5969000 4381500 -6159500 7239000 -6159500
+     7239000 -2032000 6604000 -2032000)
+    (connect (terminal wire) (terminal pin "J7 OLED DISPLAY"-3))
    )
-   (wire (path BOT 101600  4508500 -5778500 4508500 -5334000 4953000 -5334000
+   (wire (path BOT 101600  -5397500 -5778500 254000 -5778500 254000 -5969000)
+    (connect (terminal wire) (terminal pin "J5 PULSE SENSOR"-2))
+   )
+   (wire (path BOT 101600  -5397500 -5778500 -5397500 -3630650 -5461000 -3630650
+     -5461000 -2032000)
+    (connect (terminal wire) (terminal pin "J11 PI-L"-4))
+   )
+   (wire (path BOT 101600  4381500 -5969000 4381500 -5334000 4953000 -5334000
      4953000 -5715000)
-    (connect (terminal wire) (terminal pin J8-1))
+    (connect (terminal wire) (terminal pin "J8 MCP6050"-1))
    )
-   (wire (path BOT 101600  4953000 -5715000 4953000 -6096000 6921500 -6096000
-     6921500 -2032000 6604000 -2032000)
-    (connect (terminal pin J8-1) (terminal pin J7-3))
+   (wire (path BOT 101600  -5397500 -5778500 -5397500 -5969000 -5969000 -5969000)
+    (connect (terminal wire) (terminal pin "J6 DHT11"-0))
    )
-   (wire (path BOT 101600  -1651000 -5778500 -1651000 -5969000 -5969000 -5969000)
-    (connect (terminal wire) (terminal pin J6-0))
+   (wire (path BOT 101600  254000 -5969000 4381500 -5969000)
+    (connect (terminal pin "J5 PULSE SENSOR"-2) (terminal wire))
    )
-   (wire (path BOT 101600  6604000 -2032000 6223000 -2032000 6223000 -2159000
-     2794000 -2159000)
-    (connect (terminal pin J7-3) (terminal pin J4-1))
-   )
-   (wire (path BOT 101600  4508500 -6477000 4508500 -5778500)
-    (connect (terminal wire) (terminal wire))
-   )
-   (wire (path BOT 101600  4508500 -6477000 7493000 -6477000 7493000 -203195
-     2984500 -203195 2984500 5461000 -508000 5461000)
-    (connect (terminal wire) (terminal pin J13-5))
-   )
-   (wire (path BOT 101600  -1651000 -5778500 -1651000 1524000)
-    (connect (terminal wire) (terminal pin J1-19))
+   (wire (path BOT 101600  -5461000 -2032000 -5461000 1524000)
+    (connect (terminal pin "J11 PI-L"-4) (terminal pin "J1 T-COBBLER-L"-4))
    )
    (wire (path BOT 101600  -508000 5969000 -508000 6223001)
-    (connect (terminal pin J13-7) (terminal pin J13-8))
+    (connect (terminal pin "J13 POWER"-7) (terminal pin "J13 POWER"-8))
    )
    (wire (path BOT 101600  -508000 5715000 -508000 5969000)
-    (connect (terminal pin J13-6) (terminal pin J13-7))
+    (connect (terminal pin "J13 POWER"-6) (terminal pin "J13 POWER"-7))
    )
    (wire (path BOT 101600  -508000 5461000 -508000 5715000)
-    (connect (terminal pin J13-5) (terminal pin J13-6))
+    (connect (terminal pin "J13 POWER"-5) (terminal pin "J13 POWER"-6))
    )
    (wire (path BOT 101600  -508000 6223001 -508000 6477000)
-    (connect (terminal pin J13-8) (terminal pin J13-9))
+    (connect (terminal pin "J13 POWER"-8) (terminal pin "J13 POWER"-9))
    )
    )
    (Net GPIO4 
    (rule
    )
-   (wire (path BOT 63499  -6223000 -2032000 -6223000 -5969000)
-    (connect (terminal pin J11-1) (terminal pin J6-1))
+   (wire (path BOT 63499  -5715000 -2032000 -5715000 -3937000 -6223000 -3937000
+     -6223000 -5969000)
+    (connect (terminal pin "J11 PI-L"-3) (terminal pin "J6 DHT11"-1))
    )
-   (wire (path BOT 63499  -6223000 1524000 -6223000 -2032000)
-    (connect (terminal pin J1-1) (terminal pin J11-1))
+   (wire (path BOT 63499  -5715000 -2032000 -5715000 1524000)
+    (connect (terminal pin "J11 PI-L"-3) (terminal pin "J1 T-COBBLER-L"-3))
    )
    )
    (Net SCL 
    (rule
    )
-   (wire (path BOT 63499  2794000 -2413000 2476500 -2413000 2476500 1841500
-     -5969000 1841500 -5969000 1524000)
-    (connect (terminal pin J4-2) (terminal pin J1-2))
-   )
-   (wire (path BOT 63499  6604000 -2540000 6794500 -2540000 6794500 -5969000
-     5207000 -5969000 5207000 -5715000)
-    (connect (terminal pin J7-1) (terminal pin J8-2))
-   )
    (wire (path BOT 63499  6604000 -2540000 6286500 -2540000 6286500 -2413000
      2794000 -2413000)
-    (connect (terminal pin J7-1) (terminal pin J4-2))
+    (connect (terminal pin "J7 OLED DISPLAY"-1) (terminal pin "J4 ADS1115"-2))
    )
-   (wire (path BOT 63499  -5969000 -2032000 -5969000 1524000)
-    (connect (terminal pin J11-2) (terminal pin J1-2))
+   (wire (path BOT 63499  5207000 -5715000 5207000 -5011750 -1143000 -5011750
+     -1143000 1714500 -5969000 1714500 -5969000 1524000)
+    (connect (terminal pin "J8 MCP6050"-2) (terminal pin "J1 T-COBBLER-L"-2))
+   )
+   (wire (path BOT 63499  6604000 -2540000 6794500 -2540000 6794500 -5905500
+     5207000 -5905500 5207000 -5715000)
+    (connect (terminal pin "J7 OLED DISPLAY"-1) (terminal pin "J8 MCP6050"-2))
+   )
+   (wire (path BOT 63499  -5969000 1524000 -5969000 -2032000)
+    (connect (terminal pin "J1 T-COBBLER-L"-2) (terminal pin "J11 PI-L"-2))
    )
    )
    (Net SDA 
    (rule
    )
-   (wire (path BOT 63499  2794000 -2667000 2042539 -2667000 2042539 1714500
-     -5715000 1714500 -5715000 1524000)
-    (connect (terminal pin J4-3) (terminal pin J1-3))
+   (wire (path BOT 63499  -6223000 1524000 -6223000 1841500 -855092 1841500
+     -855092 -2667000 2794000 -2667000)
+    (connect (terminal pin "J1 T-COBBLER-L"-1) (terminal pin "J4 ADS1115"-3))
    )
-   (wire (path BOT 63499  5461000 -2794000 5461000 -2667000 2794000 -2667000)
-    (connect (terminal wire) (terminal pin J4-3))
+   (wire (path BOT 63499  2794000 -2667000 5461000 -2667000 5461000 -2794000)
+    (connect (terminal pin "J4 ADS1115"-3) (terminal wire))
    )
-   (wire (path BOT 63499  -5715000 1524000 -5715000 -2032000)
-    (connect (terminal pin J1-3) (terminal pin J11-3))
+   (wire (path BOT 63499  -6223000 1524000 -6223000 -2032000)
+    (connect (terminal pin "J1 T-COBBLER-L"-1) (terminal pin "J11 PI-L"-1))
    )
    (wire (path BOT 63499  5461000 -2794000 5461000 -5715000)
-    (connect (terminal wire) (terminal pin J8-3))
+    (connect (terminal wire) (terminal pin "J8 MCP6050"-3))
    )
    (wire (path BOT 63499  5461000 -2794000 6604000 -2794000)
-    (connect (terminal wire) (terminal pin J7-0))
-   )
-   )
-   (Net VCC 
-   (rule
+    (connect (terminal wire) (terminal pin "J7 OLED DISPLAY"-0))
    )
    )
    (Net {VOID} 
