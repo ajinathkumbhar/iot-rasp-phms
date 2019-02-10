@@ -1,7 +1,9 @@
 #!/bin/bash
 sudo apt-get update && 
 sudo apt-get install vim openssh-server openssh-client &&
+sudo apt-get install python-pip
 sudo apt-get install mosquitto
+sudo apt-get install python-rpi.gpio
 sudo pip install paho-mqtt
 sudo pip install adafruit-io
 sudo systemctl enable ssh 
