@@ -6,6 +6,7 @@ sudo apt-get install mosquitto
 sudo apt-get install python-rpi.gpio
 sudo pip install paho-mqtt
 sudo pip install adafruit-io
+sudo pip install enum 
 sudo systemctl enable ssh 
 sudo systemctl start ssh
 sudo apt-get install -y python-imaging python-smbus i2c-tools
