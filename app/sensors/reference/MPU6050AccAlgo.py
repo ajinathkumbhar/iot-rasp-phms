@@ -5,8 +5,8 @@ http://www.electronicwings.com
 import smbus  # import SMBus module of I2C
 from time import sleep  # import
 import threading
-import Queue
-
+from enum import Enum
+import  Queue
 # some MPU6050 Registers and their Address
 PWR_MGMT_1 = 0x6B
 SMPLRT_DIV = 0x19
@@ -22,19 +22,48 @@ GYRO_ZOUT_H = 0x47
 
 qRaw_value = Queue.Queue(maxsize=3)
 qProcessed_value = Queue.Queue(maxsize=3)
+qGesture_event = Queue.Queue(maxsize=3)
 
+GES_EVENT_FINGER_UP = 0x01
+GES_EVENT_FINGER_UP_DOWN = 0x02
+GES_EVENT_LEFT_TURN = 0x03
+GES_EVENT_LEFT_FLIP = 0x04
+GES_EVENT_RIGHT_TURN = 0x05
+GES_EVENT_RIGHT_FLIP = 0x06
 
-def is_finger_up_down(sens_val):
-	print (
-		"is_finger_up_down Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
-		"Az=%.2f" % sens_val['Az'])
+FINGER_UP_X_LOW  = -1.0
+FINGER_UP_X_HIGH = -0.30
+FINGER_UP_Y_LOW = -0.20
+FINGER_UP_Y_HIGH = 0.20
+FINGER_UP_Z_LOW = 0.95
+FINGER_UP_Z_HIGH = 1.0
+
+FLIP_X_LOW  = -0.30
+FLIP_X_HIGH = 0
+FLIP_Y_LOW = -0.10
+FLIP_Y_HIGH = 0.30
+FLIP_Z_LOW = -1.0
+FLIP_Z_HIGH = 0.95
+
+def detect_gesture_event(sens_val):
+	# print (
+	# 	"is_finger_up_down test 1.0 Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
+	# 	"Az=%.2f" % sens_val['Az'])
 	acc_x = sens_val['Ax']
 	acc_y = sens_val['Ay']
 	acc_z = sens_val['Az']
-        print acc_x
-        if acc_x < -0.25:
-        # if -0.10 < acc_y < 0.10 and 0.90 < acc_z < 0.99:
-		take_decision()
+	if FINGER_UP_X_LOW < acc_x < FINGER_UP_X_HIGH :
+		if FINGER_UP_Y_LOW < acc_y < FINGER_UP_Y_HIGH \
+				and FINGER_UP_Z_LOW < acc_z < FINGER_UP_Z_HIGH:
+			print 'GES_EVENT_FINGER_UP'
+
+	if FLIP_X_LOW < acc_x < FLIP_X_HIGH:
+		if FLIP_Y_LOW < acc_y < FLIP_Y_HIGH \
+				and FLIP_Z_LOW < acc_z < FLIP_Z_HIGH:
+			print 'GES_EVENT_FLIP'
+			#qGesture_event.put(GES_EVENT_FINGER_UP)
+
+# def is_finger_up_down():
 
 
 def detect_gesture():
@@ -43,22 +72,28 @@ def detect_gesture():
 		if qRaw_value.empty():
 			# print ("waiting for raw data... ")
 			continue
-		sens_val = qRaw_value.get()
-		is_finger_up_down(sens_val)
-		sleep(0.1)
 
-def take_decision():
-	# show result on gesture
-	print 'Result : finger UP'
+		detect_gesture_event(qRaw_value.get())
+		# while True:
+		# sens_val = qRaw_value.get()
+		# print (
+		# 	"is_finger_up_down Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
+		# 	"Az=%.2f" % sens_val['Az'])
+		# acc_x = sens_val['Ax']
+		# acc_y = sens_val['Ay']
+		# acc_z = sens_val['Az']
+		# print acc_x
+		#
+		# if acc_x < -0.40:
+		# 	print 'GES_EVENT_FINGER_UP'
+		# 	qGesture_event.put(GES_EVENT_FINGER_UP)
+
 
 
 def setup_algo():
 	# Create consumer thread
-	process_thread = threading.Thread(target=detect_gesture, name='detect_gesture')
-	decision_thread = threading.Thread(target=take_decision, name='take_decision')
-
-	process_thread.start()
-	decision_thread.start()
+	detect_gesture_thread = threading.Thread(target=detect_gesture, name='detect_gesture')
+	detect_gesture_thread.start()
 
 
 def MPU_Init():
@@ -131,3 +166,4 @@ while True:
 	# print("Gx=%.2f" % Gx, "Gy=%.2f" % Gy, "Gz=%.2f" % Gz, "Ax=%.2f g" % Ax, "Ay=%.2f g" % Ay, "Az=%.2f g" % Az)
 	# print 'Gyro : x={0:2f} y={1:2f} z={2:2f}  --- Acc : x={3:2f} y={4:2f} z={5:2f}'.format(Gx, Gy, Gz, Gx, Gy, Gz)
 	qRaw_value.put(sens_values)
+	sleep(0.1)
