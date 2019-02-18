@@ -35,7 +35,7 @@ FINGER_UP_X_LOW  = -1.0
 FINGER_UP_X_HIGH = -0.30
 FINGER_UP_Y_LOW = -0.20
 FINGER_UP_Y_HIGH = 0.20
-FINGER_UP_Z_LOW = 0.95
+FINGER_UP_Z_LOW = 0.50
 FINGER_UP_Z_HIGH = 1.0
 
 FLIP_X_LOW  = -0.30
@@ -43,12 +43,12 @@ FLIP_X_HIGH = 0
 FLIP_Y_LOW = -0.10
 FLIP_Y_HIGH = 0.30
 FLIP_Z_LOW = -1.0
-FLIP_Z_HIGH = 0.95
+FLIP_Z_HIGH = -0.95
 
 def detect_gesture_event(sens_val):
-	# print (
-	# 	"is_finger_up_down test 1.0 Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
-	# 	"Az=%.2f" % sens_val['Az'])
+	print (
+		"is_finger_up_down test 1.0 Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
+		"Az=%.2f" % sens_val['Az'])
 	acc_x = sens_val['Ax']
 	acc_y = sens_val['Ay']
 	acc_z = sens_val['Az']
@@ -56,13 +56,17 @@ def detect_gesture_event(sens_val):
 		if FINGER_UP_Y_LOW < acc_y < FINGER_UP_Y_HIGH \
 				and FINGER_UP_Z_LOW < acc_z < FINGER_UP_Z_HIGH:
 			print 'GES_EVENT_FINGER_UP'
+			# print (
+			# 	"is_finger_up_down test 1.0 Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
+			# 	"Az=%.2f" % sens_val['Az'])
 
 	if FLIP_X_LOW < acc_x < FLIP_X_HIGH:
 		if FLIP_Y_LOW < acc_y < FLIP_Y_HIGH \
 				and FLIP_Z_LOW < acc_z < FLIP_Z_HIGH:
 			print 'GES_EVENT_FLIP'
-			#qGesture_event.put(GES_EVENT_FINGER_UP)
-
+			# print (
+			# 	"is_finger_up_down test 1.0 Ax=%.2f" % sens_val['Ax'], "Ay=%.2f" % sens_val['Ay'],
+			# 	"Az=%.2f" % sens_val['Az'])
 # def is_finger_up_down():
 
 
