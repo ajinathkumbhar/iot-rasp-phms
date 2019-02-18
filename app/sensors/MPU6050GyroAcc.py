@@ -57,27 +57,31 @@ class MPU6050GryroAccSensor:
 			value = value - 65536
 		return value
 
-	def getData(self):
-		sensValues={}
+	def get_accelerometer_data(self):
+		sens_value={}
 		#Read Accelerometer raw value
 		acc_x = self.read_raw_data(ACCEL_XOUT_H)
 		acc_y = self.read_raw_data(ACCEL_YOUT_H)
 		acc_z = self.read_raw_data(ACCEL_ZOUT_H)
 
+		#Full scale range +/- 250 degree/C as per sensitivity scale factor
+		sens_value['Ax'] = acc_x/16384.0
+		sens_value['Ay'] = acc_y/16384.0
+		sens_value['Az'] = acc_z/16384.0
+
+		return sens_value
+
+	def get_gyro_data(self):
+		sens_value={}
 		#Read Gyroscope raw value
 		gyro_x = self.read_raw_data(GYRO_XOUT_H)
 		gyro_y = self.read_raw_data(GYRO_YOUT_H)
 		gyro_z = self.read_raw_data(GYRO_ZOUT_H)
 
 		#Full scale range +/- 250 degree/C as per sensitivity scale factor
-		sensValues['Ax'] = acc_x/16384.0
-		sensValues['Ay'] = acc_y/16384.0
-		sensValues['Az'] = acc_z/16384.0
+		sens_value['Gx'] = gyro_x/131.0
+		sens_value['Gy'] = gyro_y/131.0
+		sens_value['Gz'] = gyro_z/131.0
 
-		sensValues['Gx'] = gyro_x/131.0
-		sensValues['Gy'] = gyro_y/131.0
-		sensValues['Gz'] = gyro_z/131.0
+		return sens_value
 
-		#print ("Gx=%.2f" %sensValues['Gx'], "Gy=%.2f" %sensValues['Gy'], "Gz=%.2f" %sensValues['Gz'])
-		#print ("Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
-		return sensValues
