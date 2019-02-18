@@ -2,6 +2,7 @@ import os
 from sensors.THSensor import THSensor
 from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
 from display.OledDisplay import OLEDDisplay
+from sensors.accevents import AccEvents
 from sensors.SensorUtils import SensData
 import sensors.pulse as pulse
 from dashboard.ioAdafruitDash import ioAdafruitDash
@@ -15,13 +16,14 @@ THSens = THSensor()
 GyroAcc = MPU6050GryroAccSensor()
 Disp = OLEDDisplay()
 dashboard = ioAdafruitDash()
+mAccEvent = AccEvents()
 
 # queue
 qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
 qHB = Queue.Queue(maxsize=1)
 qSensorData = Queue.Queue(maxsize=1)
-
+qEvents = Queue.Queue(maxsize=10)
 # thread list
 lThreadsID = []
 
@@ -51,15 +53,11 @@ def getTHSensData():
         #print('main Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(dHT['t'], dHT['h']))
         qTH.put(dHT)
 
-def getGyroAccSensData():
-    print 'Enter : getGyroAccSensData'
-    dHT = {}
-    while True :
-        sensValues = GyroAcc.getData()
-        #print ("main Gx=%.2f" %sensValues['Gx'], "Gy=%.2f" %sensValues['Gy'], "Gz=%.2f" %sensValues['Gz'])
-        #print ("main Ax=%.2f" %sensValues['Ax'] , "Ay=%.2f" %sensValues['Ay'] , "Az=%.2f" %sensValues['Az'] )
-        qGA.put(sensValues)
-        time.sleep(.1)
+def acc_event():
+    while True:
+        sens_val = GyroAcc.get_accelerometer_data()
+        mAccEvent.detect_gesture_event(sens_val,qEvents)
+        time.sleep(0.1)
 
 def getHBSensData():
     print 'Enter : getHBSensData'
@@ -89,19 +87,19 @@ def startSensorsThreads():
     # Create threads
     DispThread = threading.Thread(target=displaySensorData, name='displaySensorData')
     THThread = threading.Thread(target=getTHSensData, name='getTHSensData')
-    GyroAccThread = threading.Thread(target=getGyroAccSensData, name='getGyroAccSensData')
+    acc_event_thread = threading.Thread(target=acc_event, name='acc_event')
     HBThread = threading.Thread(target=getHBSensData, name='getHBSensData')
 
     # Add threads id in list
     lThreadsID.append(DispThread)
     lThreadsID.append(THThread)
-    lThreadsID.append(GyroAccThread)
+    lThreadsID.append(acc_event_thread)
     lThreadsID.append(HBThread)
 
     # start threads
     DispThread.start()
     THThread.start()
-    GyroAccThread.start()
+    acc_event_thread.start()
     HBThread.start()
 
 def getSensorData(sd):
@@ -115,14 +113,11 @@ def getSensorData(sd):
         dTH = qTH.get()
         sd.temp = dTH['t']
         sd.humi = dTH['h']
-    if qGA.empty() is not True:
-        dGA = qGA.get()
-        sd.Gx = dGA['Gx']
-        sd.Gy = dGA['Gy']
-        sd.Gz = dGA['Gz']
-        sd.Ax = dGA['Ax']
-        sd.Ay = dGA['Ay']
-        sd.Az = dGA['Az']
+
+    if not qEvents.empty():
+        event = qEvents.get()
+        print "----------------- event : " + mAccEvent.get_event_str(event)
+
     if qHB.empty() is not True:
         hbeat = qHB.get()
         sd.hbeat = hbeat
@@ -132,18 +127,6 @@ def getSensorData(sd):
     if sd.humi is 0:
         sd.humi = sd.humi
 
-    if sd.Gx is 0:
-        sd.Gx = sd.Gx
-    if sd.Gy is 0:
-        sd.Gy = sd.Gy
-    if sd.Gz is 0:
-        sd.Gz = sd.Gz
-    if sd.Ax is 0:
-        sd.Ax = sd.Ax
-    if sd.Ay is 0:
-        sd.Ay = sd.Ay
-    if sd.Az is 0:
-        sd.Az = sd.Az
     if sd.hbeat is 0:
         sd.hbeat = sd.hbeat
 
