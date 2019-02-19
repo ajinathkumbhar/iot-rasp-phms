@@ -36,5 +36,5 @@ class AccEvents:
 					and event.FLIP_Z_LOW < acc_z < event.FLIP_Z_HIGH:
 				#print 'GES_EVENT_FLIP'
 				if not event_queue.full():
-					event_queue.put(event.GES_EVENT_FINGER_UP)
+					event_queue.put(event.GES_EVENT_FLIP)
 

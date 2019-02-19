@@ -3,6 +3,7 @@ from sensors.THSensor import THSensor
 from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
 from display.OledDisplay import OLEDDisplay
 from sensors.accevents import AccEvents
+import sensors.event as evt
 from sensors.SensorUtils import SensData
 import sensors.pulse as pulse
 from dashboard.ioAdafruitDash import ioAdafruitDash
@@ -18,7 +19,7 @@ GyroAcc = MPU6050GryroAccSensor()
 Disp = OLEDDisplay()
 dashboard = ioAdafruitDash()
 mAccEvent = AccEvents()
-
+mEvent = evt
 # queue
 qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
@@ -55,10 +56,21 @@ def getTHSensData():
         #print('main Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(dHT['t'], dHT['h']))
         qTH.put(dHT)
 
-def acc_event():
+def acc_event_producer():
     while True:
         sens_val = GyroAcc.get_accelerometer_data()
         mAccEvent.detect_gesture_event(sens_val,qEvents)
+        time.sleep(0.1)
+
+def acc_event_consumer():
+    while True:
+        if not qEvents.empty():
+            event = qEvents.get()
+            if event == mEvent.GES_EVENT_FINGER_UP:
+                utils.PLOGD(TAG,mAccEvent.get_event_str(event))
+
+            if event == mEvent.GES_EVENT_FLIP:
+                utils.PLOGD(TAG,mAccEvent.get_event_str(event))
         time.sleep(0.1)
 
 def getHBSensData():
@@ -89,20 +101,23 @@ def startSensorsThreads():
     # Create threads
     DispThread = threading.Thread(target=displaySensorData, name='displaySensorData')
     THThread = threading.Thread(target=getTHSensData, name='getTHSensData')
-    acc_event_thread = threading.Thread(target=acc_event, name='acc_event')
     HBThread = threading.Thread(target=getHBSensData, name='getHBSensData')
+    tAcc_producer = threading.Thread(target=acc_event_producer, name='acc_event')
+    tAcc_consumer = threading.Thread(target=acc_event_consumer, name='acc_event_consumer')
 
     # Add threads id in list
     lThreadsID.append(DispThread)
     lThreadsID.append(THThread)
-    lThreadsID.append(acc_event_thread)
+    lThreadsID.append(tAcc_consumer)
+    lThreadsID.append(tAcc_producer)
     lThreadsID.append(HBThread)
 
     # start threads
     DispThread.start()
     THThread.start()
-    acc_event_thread.start()
     HBThread.start()
+    tAcc_producer.start()
+    tAcc_consumer.start()
 
 def getSensorData(sd):
     print ' '
@@ -148,7 +163,6 @@ def captureSensorDataAndUpdateToDashboard():
         qSensorData.put(sdCurrent)
         updateDashboard(sdCurrent)
         sdPrevious = sdCurrent
-        utils.PLOGD(TAG,"update : " + str(sdCurrent.getAccCoordinate()))
         time.sleep(8)
 
 def main():
