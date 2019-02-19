@@ -11,6 +11,7 @@ import Queue
 import time
 import signal
 import sys
+from other import utils
 
 THSens = THSensor()
 GyroAcc = MPU6050GryroAccSensor()
@@ -27,6 +28,7 @@ qEvents = Queue.Queue(maxsize=10)
 # thread list
 lThreadsID = []
 
+TAG = os.path.basename(__file__)
 
 def signalHandler(sig,frame):
     print 'You pressed ctrl+c'
@@ -146,6 +148,7 @@ def captureSensorDataAndUpdateToDashboard():
         qSensorData.put(sdCurrent)
         updateDashboard(sdCurrent)
         sdPrevious = sdCurrent
+        utils.PLOGD(TAG,"update : " + str(sdCurrent.getAccCoordinate()))
         time.sleep(8)
 
 def main():

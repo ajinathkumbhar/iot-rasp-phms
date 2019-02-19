@@ -68,7 +68,7 @@ class ioAdafruitDash():
         if not self.mClient.is_connected():
             print 'Client not connected ... Check setupClient'
             return
-        print '--------update ---------'
+        # print '--------update ---------'
         self.mClient.publish(feedTemp, sd.temp)
         self.mClient.publish(feedHumi, sd.humi)
         self.mClient.publish(feedPulse, sd.hbeat)

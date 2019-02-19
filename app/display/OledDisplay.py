@@ -84,16 +84,16 @@ class OLEDDisplay:
             time.sleep(.1)
 
     def showWithDefaultTheme(self,sd):
-        print 'From display class'
-        print 'temperature : ' + str(sd.temp)
-        print 'humidity    : ' + str(sd.humi)
-        print 'Gx          : ' + str(sd.Gx)
-        print 'Gy          : ' + str(sd.Gy)
-        print 'Gz          : ' + str(sd.Gz)
-        print 'Ax          : ' + str(sd.Ax)
-        print 'Ay          : ' + str(sd.Ay)
-        print 'Az          : ' + str(sd.Az)
-        print 'Pulses      : ' + str(sd.hbeat)
+        # print 'From display class'
+        # print 'temperature : ' + str(sd.temp)
+        # print 'humidity    : ' + str(sd.humi)
+        # print 'Gx          : ' + str(sd.Gx)
+        # print 'Gy          : ' + str(sd.Gy)
+        # print 'Gz          : ' + str(sd.Gz)
+        # print 'Ax          : ' + str(sd.Ax)
+        # print 'Ay          : ' + str(sd.Ay)
+        # print 'Az          : ' + str(sd.Az)
+        # print 'Pulses      : ' + str(sd.hbeat)
         draw.rectangle((0,0,width,height), outline=0, fill=0)
         draw.text((x, top),"Temp: " + str(sd.temp),  font=font, fill=255)
         draw.text((x + ROW_MIDDLE, top),"Humi: " + str(sd.humi),  font=font, fill=255)

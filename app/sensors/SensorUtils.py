@@ -20,16 +20,16 @@ class SensData:
     def getHumidity(self):
         return self.humi
     def getGyroCoordinate(self):
-        return self.Gx, Self.Gy, Self.Gz
+        return self.Gx, self.Gy, self.Gz
     def getAccCoordinate(self):
-        return self.Ax, Self.Ay, Self.Az
+        return self.Ax, self.Ay, self.Az
     def dump(self):
-        print 'temperature : ' + str(temp)
-        print 'humidity    : ' + str(humi)
-        print 'Gx          : ' + str(Gx)
-        print 'Gy          : ' + str(Gy)
-        print 'Gz          : ' + str(Gz)
-        print 'Ax          : ' + str(Ax)
-        print 'Ay          : ' + str(Ay)
-        print 'Az          : ' + str(Az)
-        print 'Pulses      : ' + str(hbeat)
+        print 'temperature : ' + str(self.temp)
+        print 'humidity    : ' + str(self.humi)
+        print 'Gx          : ' + str(self.Gx)
+        print 'Gy          : ' + str(self.Gy)
+        print 'Gz          : ' + str(self.Gz)
+        print 'Ax          : ' + str(self.Ax)
+        print 'Ay          : ' + str(self.Ay)
+        print 'Az          : ' + str(self.Az)
+        print 'Pulses      : ' + str(self.hbeat)
