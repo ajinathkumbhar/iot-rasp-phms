@@ -1,12 +1,12 @@
 import os
-from sensors.THSensor import THSensor
-from sensors.MPU6050GyroAcc import MPU6050GryroAccSensor
-from display.OledDisplay import OLEDDisplay
+from sensors.dht11 import THSensor
+from sensors.mpu6050 import MPU6050GryroAccSensor
+from display.oled_display import OLEDDisplay
 from sensors.accevents import AccEvents
 import sensors.event as evt
-from sensors.SensorUtils import SensData
+from sensors.sensor_utils import SensData
 import sensors.pulse as pulse
-from dashboard.ioAdafruitDash import ioAdafruitDash
+from dashboard.io_adafruit import ioAdafruitDash
 import threading
 import Queue
 import time
