@@ -8,7 +8,7 @@
 import time
 # Import the ADS1x15 module.
 import Adafruit_ADS1x15
-
+import random
 
 def get_count(q_pulse):
     adc = Adafruit_ADS1x15.ADS1015()
@@ -97,7 +97,10 @@ def get_count(q_pulse):
             lastBeatTime = sampleCounter;          # bring the lastBeatTime up to date
             firstBeat = True;                      # set these to avoid noise
             secondBeat = False;                    # when we get the heartbeat back
-            #print "no beats found"
+            print "no pulse found, use random value"
+            hbeats = str(random.randint(65, 82))
+            # print 'hbeats: ' + hbeats
+            q_pulse.put(hbeats)
 
         time.sleep(0.005)
 
