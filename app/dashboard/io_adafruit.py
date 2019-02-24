@@ -3,10 +3,12 @@
 import random
 import sys
 import time
-
+from other import utils
+import os
 # Import Adafruit IO MQTT client.
 from Adafruit_IO import MQTTClient
 
+TAG = os.path.basename(__file__)
 #----------------------------------------
 
 feedTemp        = 'phmstempstatus'
@@ -28,17 +30,17 @@ isClientConnected = False
 
 # Define callback functions which will be called when certain events happen.
 def connected(client):
-    print('Connected to Adafruit IO!  Listening for DemoFeed changes...')
+    utils.PLOGD(TAG,'Connected to Adafruit IO!  Listening for DemoFeed changes...')
     # Subscribe to changes on a feed named DemoFeed.
     client.subscribe('DemoFeed')
 
 def disconnected(client):
     # Disconnected function will be called when the mClient disconnects.
-    print('Disconnected from Adafruit IO!')
+    utils.PLOGD(TAG,'Disconnected from Adafruit IO!')
     sys.exit(1)
 
 def message(client, feed_id, payload):
-    print('Feed {0} received new value: {1}'.format(feed_id, payload))
+    utils.PLOGD(TAG,'Feed {0} received new value: {1}'.format(feed_id, payload))
 
 
 class ioAdafruitDash():
@@ -66,9 +68,9 @@ class ioAdafruitDash():
       
     def update(self,sd):
         if not self.mClient.is_connected():
-            print 'Client not connected ... Check setupClient'
+            utils.PLOGE(TAG,'Client not connected ... Check setupClient')
             return
-        # print '--------update ---------'
+        utils.PLOGD(TAG,"Update dashboard")
         self.mClient.publish(feedTemp, sd.temp)
         self.mClient.publish(feedHumi, sd.humi)
         self.mClient.publish(feedPulse, sd.hbeat)

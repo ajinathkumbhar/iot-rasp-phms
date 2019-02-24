@@ -8,6 +8,7 @@ from sensors.sensor_utils import SensData
 import sensors.pulse as pulse
 from dashboard.io_adafruit import ioAdafruitDash
 from sensors.alert import Alert
+from other import utils
 import threading
 import Queue
 import time
@@ -33,23 +34,23 @@ lThreadsID = []
 
 TAG = os.path.basename(__file__)
 
+
 def signalHandler(sig,frame):
-    print 'You pressed ctrl+c'
-    print lThreadsID
+    utils.PLOGE(TAG,'You pressed ctrl+c')
+    utils.PLOGE(TAG,lThreadsID)
     if len(lThreadsID) == 0:
         sys.exit(0)
     for threadId in lThreadsID:
-        print 'killing thread ' + str(threadId)
+        utils.PLOGE(TAG,'killing thread ' + str(threadId))
         threadId._Thread__stop()
     sys.exit(0)
 
 def dumpBoardInfo():
-    print '----------------------'
-    print '1. ' + THSens.getSensorName()
-    print '----------------------'
+    utils.PLOGD(TAG, "----------------------")
+    utils.PLOGD(TAG, "1." + THSens.getSensorName())
+    utils.PLOGD(TAG, "----------------------")
 
 def getTHSensData():
-    print 'Enter : getTHSensData'
     dHT = {}
     while True:
         h, t = THSens.getTHdata()
@@ -76,7 +77,6 @@ def acc_event_consumer():
         time.sleep(0.1)
 
 def getHBSensData():
-    print 'Enter : getHBSensData'
     q_pulse = Queue.Queue(maxsize=1)
     pulse_thread = threading.Thread(target=pulse.get_count, name='displaySensorData', args=(q_pulse,))
     lThreadsID.append(pulse_thread)
@@ -88,7 +88,6 @@ def getHBSensData():
 
 
 def displaySensorData():
-    print 'Enter : displaySensorData'
     while True:
         if qSensorData.empty():
             continue
@@ -122,12 +121,6 @@ def startSensorsThreads():
     tAcc_consumer.start()
 
 def getSensorData(sdPre,sdCurr):
-    print ' '
-    print 'Enter : getSensorData'
-    dTH = {}
-    dGA = {}
-    hbeat = None
-
     if qTH.empty() is not True:
         dTH = qTH.get()
         sdCurr.temp = dTH['t']
@@ -135,7 +128,8 @@ def getSensorData(sdPre,sdCurr):
 
     if not qEvents.empty():
         event = qEvents.get()
-        print "----------------- event : " + mAccEvent.get_event_str(event)
+        utils.PLOGD(TAG,"event : " + mAccEvent.get_event_str(event))
+        sdCurr.acc_event = event
 
     if qHB.empty() is not True:
         hbeat = qHB.get()
@@ -148,8 +142,6 @@ def getSensorData(sdPre,sdCurr):
 
     if sdCurr.hbeat is 0:
         sdCurr.hbeat = sdPre.hbeat
-
-    print 'Exit : getSensorData'
 
 def init():
     dashboard.setupClient()
@@ -167,7 +159,6 @@ def captureSensorDataAndUpdateToDashboard():
         qSensorData.put(sdCurrent)
         current_time = time.time()
         diff_time = current_time - start_time
-        print diff_time
         if diff_time >= 8:
             updateDashboard(sdCurrent)
             start_time = current_time
@@ -176,12 +167,11 @@ def captureSensorDataAndUpdateToDashboard():
         time.sleep(1)
 
 def main():
-    print 'Enter : main'
-    print '---start----'
+    utils.PLOGD(TAG,'Enter : main')
     signal.signal(signal.SIGINT,signalHandler)
     init()
     captureSensorDataAndUpdateToDashboard()
-    print 'Exit : main'
+    utils.PLOGD(TAG,'Exit : main')
 
 
 

@@ -1,6 +1,8 @@
 import os
 import Adafruit_DHT
+from other import utils
 
+TAG = os.path.basename(__file__)
 sensor= Adafruit_DHT.DHT11
 pin = 4
 
@@ -20,7 +22,7 @@ class THSensor:
     def getTHdata(self):
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
         if humidity is None or temperature is None:
-           print('Failed to get reading. Try again!')
+           utils.PLOGE(TAG,"Failed to get reading. Try again!")
         return humidity, temperature
         
         

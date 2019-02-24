@@ -5,9 +5,11 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 from sensors.sensor_utils import SensData
+from other import utils
 
 import subprocess
 
+TAG = os.path.basename(__file__)
 # Raspberry Pi pin configuration:
 RST = None     # on the PiOLED this pin isnt used
 
@@ -53,7 +55,7 @@ class OLEDDisplay:
         self.disp = None
 
     def setupDisplay(self):
-        print 'setupDisplay ---ok'
+        utils.PLOGD(TAG,"setupDisplay ---ok")
 
     def testDisplay(self):
         while True:

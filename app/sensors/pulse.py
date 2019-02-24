@@ -9,6 +9,10 @@ import time
 # Import the ADS1x15 module.
 import Adafruit_ADS1x15
 import random
+import os
+from other import utils
+
+TAG = os.path.basename(__file__)
 
 def get_count(q_pulse):
     adc = Adafruit_ADS1x15.ADS1015()
@@ -80,7 +84,7 @@ def get_count(q_pulse):
                 runningTotal += rate[9];                # add the latest IBI to runningTotal
                 runningTotal /= 10;                     # average the last 10 IBI values
                 BPM = 60000/runningTotal;               # how many beats can fit into a minute? that's BPM!
-                print 'from pulse module BPM: {}'.format(BPM)
+                utils.PLOGD(TAG,'from pulse module BPM: {}'.format(BPM))
                 q_pulse.put(BPM)
 
         if Signal < thresh and Pulse == True :   # when the values are going down, the beat is over
@@ -97,7 +101,7 @@ def get_count(q_pulse):
             lastBeatTime = sampleCounter;          # bring the lastBeatTime up to date
             firstBeat = True;                      # set these to avoid noise
             secondBeat = False;                    # when we get the heartbeat back
-            print "no pulse found, use random value"
+            utils.PLOGD(TAG,"no pulse found, use random value")
             hbeats = str(random.randint(65, 82))
             # print 'hbeats: ' + hbeats
             q_pulse.put(hbeats)
