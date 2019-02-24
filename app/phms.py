@@ -157,13 +157,19 @@ def init():
     startSensorsThreads()
 
 def captureSensorDataAndUpdateToDashboard():
+    start_time = time.time()
     while True:
         sdCurrent = SensData()
         getSensorData(sdCurrent)
         qSensorData.put(sdCurrent)
-        updateDashboard(sdCurrent)
+        current_time = time.time()
+        diff_time = current_time - start_time
+        print diff_time
+        if diff_time >= 8:
+            updateDashboard(sdCurrent)
+            start_time = current_time
         sdPrevious = sdCurrent
-        time.sleep(8)
+        time.sleep(1)
 
 def main():
     print 'Enter : main'
