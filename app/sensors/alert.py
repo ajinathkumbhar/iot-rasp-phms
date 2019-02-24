@@ -33,6 +33,8 @@ class Alert:
         self.__temp(sens_values.temp)
 
     def __pulse(self,rate):
+        if rate is None:
+            val = 0
         utils.PLOGD(TAG,"pulse rate : " + str(rate))
         if int(rate) < self.pulse_limit:
             return
@@ -40,6 +42,8 @@ class Alert:
         utils.PLOGD(TAG,"High pulse rate : " + str(rate))
 
     def __temp(self,val):
+        if val is None:
+            val = 0
         utils.PLOGD(TAG,"body temperature: " + str(val))
         if int(val) < self.temp_limit:
             return
