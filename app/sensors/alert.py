@@ -18,7 +18,7 @@ class Alert:
     def __init__(self):
         self.name = "Alert"
         self.pulse_limit = 80
-        self.temp_limit = 70
+        self.temp_limit = 40
         self.humidity_limit = 100
         self.ges_event_finger_limit = 3
         GPIO.setwarnings(False)  # Ignore warning for now
