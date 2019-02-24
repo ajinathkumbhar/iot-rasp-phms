@@ -7,6 +7,7 @@ import sensors.event as evt
 from sensors.sensor_utils import SensData
 import sensors.pulse as pulse
 from dashboard.io_adafruit import ioAdafruitDash
+from sensors.alert import Alert
 import threading
 import Queue
 import time
@@ -20,6 +21,7 @@ Disp = OLEDDisplay()
 dashboard = ioAdafruitDash()
 mAccEvent = AccEvents()
 mEvent = evt
+mAlert = Alert()
 # queue
 qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
@@ -119,7 +121,7 @@ def startSensorsThreads():
     tAcc_producer.start()
     tAcc_consumer.start()
 
-def getSensorData(sd):
+def getSensorData(sdPre,sdCurr):
     print ' '
     print 'Enter : getSensorData'
     dTH = {}
@@ -128,8 +130,8 @@ def getSensorData(sd):
 
     if qTH.empty() is not True:
         dTH = qTH.get()
-        sd.temp = dTH['t']
-        sd.humi = dTH['h']
+        sdCurr.temp = dTH['t']
+        sdCurr.humi = dTH['h']
 
     if not qEvents.empty():
         event = qEvents.get()
@@ -137,15 +139,15 @@ def getSensorData(sd):
 
     if qHB.empty() is not True:
         hbeat = qHB.get()
-        sd.hbeat = hbeat
+        sdCurr.hbeat = hbeat
 
-    if sd.temp is 0:
-        sd.temp = sd.temp
-    if sd.humi is 0:
-        sd.humi = sd.humi
+    if sdCurr.temp is 0:
+        sdCurr.temp = sdPre.temp
+    if sdCurr.humi is 0:
+        sdCurr.humi = sdPre.humi
 
-    if sd.hbeat is 0:
-        sd.hbeat = sd.hbeat
+    if sdCurr.hbeat is 0:
+        sdCurr.hbeat = sdPre.hbeat
 
     print 'Exit : getSensorData'
 
@@ -158,9 +160,10 @@ def init():
 
 def captureSensorDataAndUpdateToDashboard():
     start_time = time.time()
+    sdPrevious = SensData()
     while True:
         sdCurrent = SensData()
-        getSensorData(sdCurrent)
+        getSensorData(sdPrevious,sdCurrent)
         qSensorData.put(sdCurrent)
         current_time = time.time()
         diff_time = current_time - start_time
@@ -168,6 +171,7 @@ def captureSensorDataAndUpdateToDashboard():
         if diff_time >= 8:
             updateDashboard(sdCurrent)
             start_time = current_time
+        mAlert.check_and_trigger_alert(sdCurrent)
         sdPrevious = sdCurrent
         time.sleep(1)
 
@@ -178,6 +182,7 @@ def main():
     init()
     captureSensorDataAndUpdateToDashboard()
     print 'Exit : main'
+
 
 
 
