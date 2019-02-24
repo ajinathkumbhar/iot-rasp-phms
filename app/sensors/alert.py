@@ -46,7 +46,7 @@ class Alert:
         utils.PLOGD(TAG,"pulse rate : " + str(rate))
         if int(rate) < self.pulse_limit:
             return
-        self.__trigger_led(LED_PULSE,0.3)
+        self.__trigger_led(LED_PULSE,0.1)
         self.__trigger_buzzer()
         utils.PLOGD(TAG,"High pulse rate : " + str(rate))
 
@@ -56,7 +56,7 @@ class Alert:
         utils.PLOGD(TAG,"body temperature: " + str(val))
         if int(val) < self.temp_limit:
             return
-        self.__trigger_led(LED_TEMP,0.3)
+        self.__trigger_led(LED_TEMP,0.1)
         self.__trigger_buzzer()
         utils.PLOGD(TAG,"High body temperature: " + str(val))
 
@@ -64,7 +64,7 @@ class Alert:
         if event == evt.GES_EVENT_NONE:
             return
         utils.PLOGD(TAG, "Acc event : " + mAccEvent.get_event_str(event))
-        self.__trigger_led(LED_ACC_EVENT,0.3)
+        self.__trigger_led(LED_ACC_EVENT,0.1)
 
     def __trigger_led(self,LED_PIN,blink_delay=0):
         GPIO.setup(LED_PIN, GPIO.OUT, initial=GPIO.LOW)  # Set pin 8 to be an output pin and set initial value to low (off)
@@ -73,7 +73,7 @@ class Alert:
         GPIO.output(LED_PIN, GPIO.LOW)  # Turn off
         sleep(blink_delay)  # Sleep for 1 second
 
-    def __trigger_buzzer(self,timeout=0.5,beep=False):
+    def __trigger_buzzer(self,timeout=0.3,beep=False):
         self.buzzer.off()
         self.buzzer.on()
         sleep(timeout)
