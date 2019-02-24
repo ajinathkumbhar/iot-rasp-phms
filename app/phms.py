@@ -129,6 +129,7 @@ def getSensorData(sdPre,sdCurr):
     if not qEvents.empty():
         event = qEvents.get()
         utils.PLOGD(TAG,"event : " + mAccEvent.get_event_str(event))
+        sdCurr.acc_event = event
 
     if qHB.empty() is not True:
         hbeat = qHB.get()

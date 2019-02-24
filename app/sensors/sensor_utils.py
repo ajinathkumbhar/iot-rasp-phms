@@ -1,4 +1,4 @@
-
+import event
 
 # SensData class to collect all sensors data in
 # in single object
@@ -14,6 +14,7 @@ class SensData:
         self.Ax = 0
         self.Ay = 0
         self.Az = 0
+        self.acc_event = event.GES_EVENT_NONE
         self.hbeat = 0
     def getTemp(self):
         return self.temp
