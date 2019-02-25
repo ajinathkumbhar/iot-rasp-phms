@@ -5,6 +5,7 @@ from time import sleep  # Import the sleep function from the time module
 from gpiozero import Buzzer
 from sensors.accevents import AccEvents
 import event as evt
+
 # LED_PULSE=31
 # LED_TEMP=33
 # LED_ACC_EVENT=37

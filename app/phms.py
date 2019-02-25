@@ -8,6 +8,7 @@ from sensors.sensor_utils import SensData
 import sensors.pulse as pulse
 from dashboard.io_adafruit import ioAdafruitDash
 from sensors.alert import Alert
+from reports.reportmail import Pimail
 from other import utils
 import threading
 import Queue
@@ -23,6 +24,8 @@ dashboard = ioAdafruitDash()
 mAccEvent = AccEvents()
 mEvent = evt
 mAlert = Alert()
+mEmail = Pimail()
+
 # queue
 qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
@@ -161,6 +164,7 @@ def captureSensorDataAndUpdateToDashboard():
         diff_time = current_time - start_time
         if diff_time >= 8:
             updateDashboard(sdCurrent)
+            mEmail.send(sdCurrent)
             start_time = current_time
         mAlert.check_and_trigger_alert(sdCurrent)
         sdPrevious = sdCurrent
