@@ -7,14 +7,22 @@ from other import utils
 import os
 # Import Adafruit IO MQTT client.
 from Adafruit_IO import MQTTClient
+from reports.reportmail import Pimail
+import Queue
 
 TAG = os.path.basename(__file__)
+mEmail = Pimail()
+qSens = Queue.Queue(maxsize=1)
+
 #----------------------------------------
 
 feedTemp        = 'phmstempstatus'
 feedHumi        = 'phmshumistatus'
 feedPulse       = 'phmspulsestatus'
 feedAccGyro     = 'phmsaccgyrostatus'
+feedAccEventName = 'phmseventname'
+feedAccEventTime = 'phmseventtime'
+feedreport = 'phmsreport'
 
 
 # Set to your Adafruit IO key.
@@ -27,12 +35,14 @@ ADAFRUIT_IO_KEY = 'ce57f54de4464c2e8b2d2cccb2968072'
 ADAFRUIT_IO_USERNAME = 'ajinathkumbhar'
 isClientConnected = False
 
+mLast_sens_data = None
+
 
 # Define callback functions which will be called when certain events happen.
 def connected(client):
     utils.PLOGD(TAG,'Connected to Adafruit IO!  Listening for DemoFeed changes...')
     # Subscribe to changes on a feed named DemoFeed.
-    client.subscribe('DemoFeed')
+    client.subscribe(feedreport)
 
 def disconnected(client):
     # Disconnected function will be called when the mClient disconnects.
@@ -41,7 +51,10 @@ def disconnected(client):
 
 def message(client, feed_id, payload):
     utils.PLOGD(TAG,'Feed {0} received new value: {1}'.format(feed_id, payload))
-
+    if not qSens.empty() and int(payload):
+        utils.PLOGD(TAG,'------ send report ---------------')
+        sens = qSens.get()
+        mEmail.send(sens)
 
 class ioAdafruitDash():
     def __init__(self):
@@ -65,7 +78,6 @@ class ioAdafruitDash():
             print '.',
             time.sleep(.5)
    
-      
     def update(self,sd):
         if not self.mClient.is_connected():
             utils.PLOGE(TAG,'Client not connected ... Check setupClient')
@@ -74,5 +86,13 @@ class ioAdafruitDash():
         self.mClient.publish(feedTemp, sd.temp)
         self.mClient.publish(feedHumi, sd.humi)
         self.mClient.publish(feedPulse, sd.hbeat)
-        self.mClient.publish(feedAccGyro, sd.Az)
+        self.mClient.publish(feedAccEventTime, sd.acc_event[0])
+        self.mClient.publish(feedAccEventName, sd.acc_event[1])
+        if not qSens.empty():
+            sens = qSens.get()
+            utils.PLOGD(TAG,str(sens.temp))
+
+        if not qSens.full():
+            qSens.put(sd)
+
         
