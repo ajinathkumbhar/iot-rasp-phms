@@ -14,7 +14,6 @@ import Queue
 import time
 import signal
 import sys
-from other import utils
 
 THSens = THSensor()
 GyroAcc = MPU6050GryroAccSensor()
@@ -23,6 +22,7 @@ dashboard = ioAdafruitDash()
 mAccEvent = AccEvents()
 mEvent = evt
 mAlert = Alert()
+
 # queue
 qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
@@ -33,7 +33,6 @@ qEvents = Queue.Queue(maxsize=10)
 lThreadsID = []
 
 TAG = os.path.basename(__file__)
-
 
 def signalHandler(sig,frame):
     utils.PLOGE(TAG,'You pressed ctrl+c')
@@ -65,15 +64,16 @@ def acc_event_producer():
         mAccEvent.detect_gesture_event(sens_val,qEvents)
         time.sleep(0.1)
 
+
 def acc_event_consumer():
     while True:
         if not qEvents.empty():
             event = qEvents.get()
-            if event == mEvent.GES_EVENT_FINGER_UP:
-                utils.PLOGD(TAG,mAccEvent.get_event_str(event))
+            if event[1] == mEvent.GES_EVENT_FINGER_UP:
+                utils.PLOGD(TAG,mAccEvent.get_event_str(event[1]))
 
-            if event == mEvent.GES_EVENT_FLIP:
-                utils.PLOGD(TAG,mAccEvent.get_event_str(event))
+            if event[1] == mEvent.GES_EVENT_FLIP:
+                utils.PLOGD(TAG,mAccEvent.get_event_str(event[1]))
         time.sleep(0.1)
 
 def getHBSensData():
@@ -126,10 +126,10 @@ def getSensorData(sdPre,sdCurr):
         sdCurr.temp = dTH['t']
         sdCurr.humi = dTH['h']
 
-    if not qEvents.empty():
-        event = qEvents.get()
-        utils.PLOGD(TAG,"event : " + mAccEvent.get_event_str(event))
-        sdCurr.acc_event = event
+    # if not qEvents.empty():
+    event = mAccEvent.get_last_event()
+    utils.PLOGD(TAG,"event : " + str(event))
+    sdCurr.acc_event = event
 
     if qHB.empty() is not True:
         hbeat = qHB.get()
@@ -159,7 +159,7 @@ def captureSensorDataAndUpdateToDashboard():
         qSensorData.put(sdCurrent)
         current_time = time.time()
         diff_time = current_time - start_time
-        if diff_time >= 8:
+        if diff_time >= 15:
             updateDashboard(sdCurrent)
             start_time = current_time
         mAlert.check_and_trigger_alert(sdCurrent)

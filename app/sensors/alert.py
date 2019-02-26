@@ -5,6 +5,7 @@ from time import sleep  # Import the sleep function from the time module
 from gpiozero import Buzzer
 from sensors.accevents import AccEvents
 import event as evt
+
 # LED_PULSE=31
 # LED_TEMP=33
 # LED_ACC_EVENT=37
@@ -61,9 +62,9 @@ class Alert:
         utils.PLOGD(TAG,"High body temperature: " + str(val))
 
     def __acc_event(self,event):
-        if event == evt.GES_EVENT_NONE:
+        if event[1] == evt.GES_EVENT_NONE:
             return
-        utils.PLOGD(TAG, "Acc event : " + mAccEvent.get_event_str(event))
+        utils.PLOGD(TAG, "Acc event : " + mAccEvent.get_event_str(event[1]))
         self.__trigger_led(LED_ACC_EVENT,0.1)
 
     def __trigger_led(self,LED_PIN,blink_delay=0):
@@ -74,6 +75,7 @@ class Alert:
         sleep(blink_delay)  # Sleep for 1 second
 
     def __trigger_buzzer(self,timeout=0.3,beep=False):
+        return
         self.buzzer.off()
         self.buzzer.on()
         sleep(timeout)
