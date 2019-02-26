@@ -2,9 +2,10 @@ import smtplib
 import os
 from string import Template
 from sensors.accevents import AccEvents
-
+from other import utils
 mAccEvent = AccEvents()
 
+TAG = os.path.basename(__file__)
 class Pimail:
     def __init__(self):
         self.__name = "Pimail"
@@ -47,12 +48,14 @@ class Pimail:
     def send(self,sens_data):
         names, emails = self.__get_contacts(self.__contacts) # read contacts
         message_template = self.__read_template(self.__message_template)
-        evt = mAccEvent.get_event_str(sens_data.acc_event)
+        evt = str(mAccEvent.get_event_str(sens_data.acc_event[1]))
         # set up the SMTP server
-        s = smtplib.SMTP(host='smtp.gmail.com', port=587)
-        s.starttls()
-        s.login(self.sender_id, self.sender_pass)
-
+        try:
+            s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+            s.starttls()
+            s.login(self.sender_id, self.sender_pass)
+        except:
+            utils.PLOGE(TAG,"failed to login")
         # For each contact, send the email:
         for name, email in zip(names, emails):
             # add in the actual person name to the message template
@@ -61,17 +64,18 @@ class Pimail:
                                                   ID="3256AD887WQ",
                                                   PULSE_RATE=str(sens_data.hbeat),
                                                   TEMP=str(sens_data.temp),
-                                                  GES_EVENT=evt
+                                                  GES_EVENT=evt,
+                                                  EVENT_TIME=sens_data.acc_event[0]
                                                   )
             # Prints out the message body for our sake
-            print(message)
+            # print(message)
 
                 # send the message via the server set up earlier.
-            print "Sending mail form : " + self.sender_id + " to " + email
-            # try:
-            #     s.sendmail(self.sender_id,email,message)
-            # except:
-            #     print "failed to send email to " + email
+            utils.PLOGD(TAG,"Sending mail form : " + self.sender_id + " to " + email)
+            try:
+                s.sendmail(self.sender_id,email,message)
+            except:
+                utils.PLOGE(TAG, "failed to send email to " + email)
 
         # Terminate the SMTP session and close the connection
         s.quit()

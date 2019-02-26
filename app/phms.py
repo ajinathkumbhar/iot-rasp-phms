@@ -37,7 +37,6 @@ lThreadsID = []
 
 TAG = os.path.basename(__file__)
 
-
 def signalHandler(sig,frame):
     utils.PLOGE(TAG,'You pressed ctrl+c')
     utils.PLOGE(TAG,lThreadsID)
@@ -68,15 +67,16 @@ def acc_event_producer():
         mAccEvent.detect_gesture_event(sens_val,qEvents)
         time.sleep(0.1)
 
+
 def acc_event_consumer():
     while True:
         if not qEvents.empty():
             event = qEvents.get()
-            if event == mEvent.GES_EVENT_FINGER_UP:
-                utils.PLOGD(TAG,mAccEvent.get_event_str(event))
+            if event[1] == mEvent.GES_EVENT_FINGER_UP:
+                utils.PLOGD(TAG,mAccEvent.get_event_str(event[1]))
 
-            if event == mEvent.GES_EVENT_FLIP:
-                utils.PLOGD(TAG,mAccEvent.get_event_str(event))
+            if event[1] == mEvent.GES_EVENT_FLIP:
+                utils.PLOGD(TAG,mAccEvent.get_event_str(event[1]))
         time.sleep(0.1)
 
 def getHBSensData():
@@ -129,10 +129,10 @@ def getSensorData(sdPre,sdCurr):
         sdCurr.temp = dTH['t']
         sdCurr.humi = dTH['h']
 
-    if not qEvents.empty():
-        event = qEvents.get()
-        utils.PLOGD(TAG,"event : " + mAccEvent.get_event_str(event))
-        sdCurr.acc_event = event
+    # if not qEvents.empty():
+    event = mAccEvent.get_last_event()
+    utils.PLOGD(TAG,"event : " + str(mAccEvent.get_event_str(event[1])))
+    sdCurr.acc_event = event
 
     if qHB.empty() is not True:
         hbeat = qHB.get()

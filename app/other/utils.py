@@ -1,4 +1,5 @@
 import os
+import datetime
 
 TAG = os.path.basename(__file__)
 prog_name = ''
@@ -40,13 +41,16 @@ def GetVersion():
     version = 'PHMS ' + '- V' + major_ver + '.' + minor_ver
     return version
 
+def get_current_time():
+    currentDT = datetime.datetime.now()
+    return currentDT.strftime("%Y-%m-%d %H:%M:%S")
 
 def GetLogMsg(tag, log_type, msg, arg=None):
     tag = tag + ' ' * (20 - len(tag))
     if type(msg) != str:
-        log_msg = tag + ' ' + log_type + ':  ' + str(msg) + ' ' + arg
+        log_msg = get_current_time() + ' ' + tag + ' ' + log_type + ':  ' + str(msg) + ' ' + arg
     else:
-        log_msg = tag + ' ' + log_type + ':  ' + msg + ' ' + arg
+        log_msg = get_current_time() + ' ' + tag + ' ' + log_type + ':  ' + msg + ' ' + arg
     return log_msg
 
 

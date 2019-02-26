@@ -1,10 +1,12 @@
 Subject:${SUBJECT}
 Dear ${PERSON_NAME}, 
 
-This reporting message of patient id #${ID}
+Patient Health Report
+--------------------------
+Patient ID : ${ID}
 Pulse rate : ${PULSE_RATE}
 Body Temp  : ${TEMP}
-Last patient response : ${GES_EVENT}
+Last patient response : ${GES_EVENT} at ${EVENT_TIME}
 
 Regards,
 Dr. Raspberry pi
