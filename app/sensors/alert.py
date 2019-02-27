@@ -5,6 +5,7 @@ from time import sleep  # Import the sleep function from the time module
 from gpiozero import Buzzer
 from sensors.accevents import AccEvents
 import event as evt
+from reports.reportmail import Pimail
 
 # LED_PULSE=31
 # LED_TEMP=33
@@ -20,8 +21,9 @@ BUZZER_ALERT=21
 
 TAG = os.path.basename(__file__)
 mAccEvent = AccEvents()
+mEmail = Pimail()
 
-class Alert:
+class Alert(object):
     def __init__(self):
         self.name = "Alert"
         self.pulse_limit = 80
@@ -29,6 +31,7 @@ class Alert:
         self.humidity_limit = 100
         self.ges_event_finger_limit = 3
         self.buzzer = Buzzer(BUZZER_ALERT)
+        self.__is_high_alert = False
         GPIO.setwarnings(False)  # Ignore warning for now
         GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
         GPIO.setup(LED_PULSE, GPIO.OUT, initial=GPIO.LOW)  # Set pin 8 to be an output pin and set initial value to low (off)
@@ -40,6 +43,13 @@ class Alert:
         self.__pulse(sens_values.hbeat)
         self.__temp(sens_values.temp)
         self.__acc_event(sens_values.acc_event)
+        self.__report_on_high_alert(sens_values)
+
+    def __report_on_high_alert(self,sens_values):
+        if not self.__is_high_alert:
+            return
+        mEmail.send(sens_values)
+        self.__is_high_alert = False
 
     def __pulse(self,rate):
         if rate is None:
@@ -47,6 +57,7 @@ class Alert:
         utils.PLOGD(TAG,"pulse rate : " + str(rate))
         if int(rate) < self.pulse_limit:
             return
+        self.__is_high_alert = True
         self.__trigger_led(LED_PULSE,0.1)
         self.__trigger_buzzer()
         utils.PLOGD(TAG,"High pulse rate : " + str(rate))
@@ -57,6 +68,7 @@ class Alert:
         utils.PLOGD(TAG,"body temperature: " + str(val))
         if int(val) < self.temp_limit:
             return
+        self.__is_high_alert = True
         self.__trigger_led(LED_TEMP,0.1)
         self.__trigger_buzzer()
         utils.PLOGD(TAG,"High body temperature: " + str(val))
