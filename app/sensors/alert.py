@@ -57,7 +57,7 @@ class Alert(object):
         utils.PLOGD(TAG,"pulse rate : " + str(rate))
         if int(rate) < self.pulse_limit:
             return
-        self.__is_high_alert = True
+        # self.__is_high_alert = True
         self.__trigger_led(LED_PULSE,0.1)
         self.__trigger_buzzer()
         utils.PLOGD(TAG,"High pulse rate : " + str(rate))
