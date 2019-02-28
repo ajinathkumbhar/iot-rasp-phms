@@ -13,7 +13,7 @@ TAG = os.path.basename(__file__)
 # Raspberry Pi pin configuration:
 RST = None     # on the PiOLED this pin isnt used
 
-disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, i2c_address=0x3C)
+disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_address=0x3C)
 # Initialize library.
 disp.begin()
 
