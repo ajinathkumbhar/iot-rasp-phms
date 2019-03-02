@@ -27,7 +27,6 @@ mAlert = Alert()
 qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
 qHB = Queue.Queue(maxsize=1)
-qSensorData = Queue.Queue(maxsize=1)
 qEvents = Queue.Queue(maxsize=10)
 # thread list
 lThreadsID = []
@@ -87,34 +86,23 @@ def getHBSensData():
         time.sleep(.1)
 
 
-def displaySensorData():
-    while True:
-        if qSensorData.empty():
-            continue
-        sd = qSensorData.get()
-        Disp.showWithDefaultTheme(sd)
-        time.sleep(.1)
-
 def updateDashboard(sd):
     dashboard.update(sd)
 
 def startSensorsThreads():
     # Create threads
-    DispThread = threading.Thread(target=displaySensorData, name='displaySensorData')
     THThread = threading.Thread(target=getTHSensData, name='getTHSensData')
     HBThread = threading.Thread(target=getHBSensData, name='getHBSensData')
     tAcc_producer = threading.Thread(target=acc_event_producer, name='acc_event')
     tAcc_consumer = threading.Thread(target=acc_event_consumer, name='acc_event_consumer')
 
     # Add threads id in list
-    lThreadsID.append(DispThread)
     lThreadsID.append(THThread)
     lThreadsID.append(tAcc_consumer)
     lThreadsID.append(tAcc_producer)
     lThreadsID.append(HBThread)
 
     # start threads
-    DispThread.start()
     THThread.start()
     HBThread.start()
     tAcc_producer.start()
@@ -156,7 +144,6 @@ def captureSensorDataAndUpdateToDashboard():
     while True:
         sdCurrent = SensData()
         getSensorData(sdPrevious,sdCurrent)
-        qSensorData.put(sdCurrent)
         current_time = time.time()
         diff_time = current_time - start_time
         if diff_time >= 15:
