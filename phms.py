@@ -158,18 +158,22 @@ class PhmsCore(object):
         self.captureSensorDataAndUpdateToDashboard()
         utils.PLOGD(TAG,'Exit : main')
 
-
-def signalHandler(sig,frame):
-    utils.PLOGE(TAG,'You pressed ctrl+c')
-    utils.PLOGE(TAG,lThreadsID)
-    if len(lThreadsID) == 0:
+    def stop_app(self):
+        utils.PLOGE(TAG, 'You pressed ctrl+c')
+        utils.PLOGE(TAG, lThreadsID)
+        if len(lThreadsID) == 0:
+            sys.exit(0)
+        for threadId in lThreadsID:
+            utils.PLOGE(TAG, 'killing thread ' + str(threadId))
+            threadId._Thread__stop()
         sys.exit(0)
-    for threadId in lThreadsID:
-        utils.PLOGE(TAG,'killing thread ' + str(threadId))
-        threadId._Thread__stop()
-    sys.exit(0)
+
+
 
 phms_app = PhmsCore()
+
+def signalHandler(sig,frame):
+    phms_app.start_app()
 
 def main():
     signal.signal(signal.SIGINT,signalHandler)
