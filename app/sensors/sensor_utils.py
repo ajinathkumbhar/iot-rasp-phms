@@ -3,9 +3,12 @@ import event
 # SensData class to collect all sensors data in
 # in single object
 class SensData:
-    def __init__(self):
+    def __init__(self,id):
         self.clear()
+        self.device_id = id
+
     def clear(self):
+        self.device_id = ""
         self.temp = 0
         self.humi = 0
         self.Gx = 0
