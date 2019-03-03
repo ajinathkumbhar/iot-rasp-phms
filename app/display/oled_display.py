@@ -4,8 +4,8 @@ import time
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-from sensors.sensor_utils import SensData
-from other import utils
+from app.sensors.sensor_utils import SensData
+from app.other import utils
 
 import subprocess
 

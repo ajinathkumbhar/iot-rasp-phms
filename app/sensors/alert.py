@@ -1,11 +1,11 @@
 import os
-from other import utils
+from app.other import utils
 import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
 from time import sleep  # Import the sleep function from the time module
 from gpiozero import Buzzer
-from sensors.accevents import AccEvents
+from app.sensors.accevents import AccEvents
 import event as evt
-from reports.reportmail import Pimail
+from app.reports.reportmail import Pimail
 
 # LED_PULSE=31
 # LED_TEMP=33

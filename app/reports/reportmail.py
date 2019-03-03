@@ -1,8 +1,8 @@
 import smtplib
 import os
 from string import Template
-from sensors.accevents import AccEvents
-from other import utils
+from app.sensors.accevents import AccEvents
+from app.other import utils
 mAccEvent = AccEvents()
 
 TAG = os.path.basename(__file__)

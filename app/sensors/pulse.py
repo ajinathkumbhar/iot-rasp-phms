@@ -10,7 +10,7 @@ import time
 import Adafruit_ADS1x15
 import random
 import os
-from other import utils
+from app.other import utils
 
 TAG = os.path.basename(__file__)
 

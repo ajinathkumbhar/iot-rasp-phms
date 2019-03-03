@@ -6,15 +6,25 @@ import os
 import threading
 import signal
 import sys
+from phms import PhmsCore
+from phms import qSensor_data
 from Tkinter import *
-import  random
+import app.other.utils as utils
+from app.sensors.accevents import AccEvents
 
+TAG = os.path.basename(__file__)
+
+# objects
+mPhms_core = PhmsCore()
+mAcc_event = AccEvents()
+# thread list to send kill signal
+lThreadsID = []
+
+# Window config
 win = tk.Tk()
 win.title("Phms")
-# win.overrideredirect(True)
+win.overrideredirect(True)
 win.geometry("480x320")
-lThreadsID = []
-stop_threads = False
 win.grid_columnconfigure(1, weight=1)
 
 #font conf
@@ -47,8 +57,8 @@ temp_text = "Body temp:"
 temp_val_string= StringVar()
 temp_val_string.set("0")
 
-temp_title = Label(temp_frame, text=temp_text, font=font_medium, height=3, width=25)
-temp_val = Label( temp_frame, textvariable=temp_val_string, font=font_medium, height=3, width=25)
+temp_title = Label(temp_frame, text=temp_text, font=font_medium, height=2, width=15)
+temp_val = Label( temp_frame, textvariable=temp_val_string, font=font_medium, height=2, width=35)
 
 temp_title.pack(side="left", fill=None,expand=False)
 temp_val.pack(side="left", fill=None,expand=False)
@@ -56,12 +66,12 @@ temp_val.pack(side="left", fill=None,expand=False)
 temp_frame.grid(row=3, sticky=tk.W)
 
 # pulse sensor frame
-pulse_text = "Pulse rate(per min) : "
+pulse_text = "Pulse rate : "
 pulse_val_string= StringVar()
 pulse_val_string.set("0")
 
-pulse_title = Label(pulse_frame, text=pulse_text, font=font_medium, height=3, width=25)
-pulse_val = Label( pulse_frame, textvariable=pulse_val_string, font=font_medium, height=3, width=25)
+pulse_title = Label(pulse_frame, text=pulse_text, font=font_medium, height=2, width=15)
+pulse_val = Label( pulse_frame, textvariable=pulse_val_string, font=font_medium, height=2, width=35)
 
 pulse_title.pack(side="left", fill=None,expand=False)
 pulse_val.pack(side="left", fill=None,expand=False)
@@ -69,12 +79,12 @@ pulse_val.pack(side="left", fill=None,expand=False)
 pulse_frame.grid(row=4, sticky=tk.W)
 
 # Accelerometer frame
-acc_event_text = "Response : "
+acc_event_text = "Last response : "
 acc_event_val_string= StringVar()
 acc_event_val_string.set("0")
 
-acc_event_title = Label(acc_event_frame, text=acc_event_text, font=font_medium, height=3, width=25)
-acc_event_val = Label( acc_event_frame, textvariable=acc_event_val_string, font=font_medium, height=3, width=25)
+acc_event_title = Label(acc_event_frame, text=acc_event_text, font=font_medium, height=2, width=15)
+acc_event_val = Label( acc_event_frame, textvariable=acc_event_val_string, font=font_medium, height=2, width=35)
 
 acc_event_title.pack(side="left", fill=None,expand=False)
 acc_event_val.pack(side="left", fill=None,expand=False)
@@ -95,8 +105,6 @@ acc_event_frame.grid(row=5, sticky=tk.W)
 #      |                              |
 #      +------------------------------+
 
-
-
 def signalHandler(sig,frame):
     print 'You pressed ctrl+c'
     print lThreadsID
@@ -105,25 +113,46 @@ def signalHandler(sig,frame):
     for threadId in lThreadsID:
         print 'killing thread ' + str(threadId)
         threadId._Thread__stop()
+    mPhms_core.stop_app()
     sys.exit(0)
 
 def run_app():
+    mPhms_core.start_app()
+
+def update_ui():
     while True:
-        print "Hey hello"
-        temp_val_string.set(str(random.randint(1,101)))
-        pulse_val_string.set(str(random.randint(1,101)))
-        acc_event_val_string.set(str(random.randint(1,101)))
-        time.sleep(1)
+        if qSensor_data.empty():
+            time.sleep(0.1)
+            continue
+        sens_data = qSensor_data.get()
+        utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.temp))
+        utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.humi))
+        utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.hbeat))
+        utils.PLOGD(TAG,"-------- ui_thread " + str(mAcc_event.get_event_str(sens_data.acc_event[1])))
+        temp_val_string.set(str(sens_data.temp))
+        pulse_val_string.set(str(sens_data.hbeat))
+
+        event_str = " - "
+        if sens_data.acc_event[1] ==  0x07:
+            event_str =  "HAND FLIP" + event_str + sens_data.acc_event[0]
+        elif sens_data.acc_event[1] ==  0x01:
+            event_str =  "FINGER UP" + event_str  + sens_data.acc_event[0]
+        else:
+            event_str = "None"
+        acc_event_val_string.set(event_str)
 
 def start_app():
     app_thread = threading.Thread(target=run_app)
+    ui_thread = threading.Thread(target=update_ui)
+
     lThreadsID.append(app_thread)
+    lThreadsID.append(ui_thread)
     app_thread.start()
+    ui_thread.start()
     start_button.configure(state="disabled")
 
 def exit_app():
     os.kill(os.getpid(), signal.SIGTERM)
-    exit(0)
 
 def main():
     signal.signal(signal.SIGTERM,signalHandler)
@@ -131,6 +160,7 @@ def main():
 
     start_button.configure(command=start_app)
     exit_button.configure(command=exit_app)
+
 
 if __name__ == "__main__":
     main()
