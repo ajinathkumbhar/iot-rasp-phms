@@ -4,6 +4,8 @@ import random
 import sys
 import time
 from app.other import utils
+from app.sensors.accevents import AccEvents
+
 import os
 import datetime
 
@@ -15,6 +17,7 @@ import Queue
 TAG = os.path.basename(__file__)
 mEmail = Pimail()
 qSens = Queue.Queue(maxsize=1)
+mAccEvents = AccEvents()
 
 #----------------------------------------
 feedDeviceID    = 'phmsdeviceid'
@@ -90,7 +93,7 @@ class ioAdafruitDash():
         self.mClient.publish(feedHumi, sd.humi)
         self.mClient.publish(feedPulse, sd.hbeat)
         self.mClient.publish(feedAccEventTime, sd.acc_event[0])
-        self.mClient.publish(feedAccEventName, sd.acc_event[1])
+        self.mClient.publish(feedAccEventName, mAccEvents.get_event_str(sd.acc_event[1]))
         self.mClient.publish(feedLastOnline, datetime.datetime.now().strftime("%Y-%B-%d %H:%M:%S"))
 
         if not qSens.empty():
