@@ -13,6 +13,7 @@ import app.other.utils as utils
 from app.sensors.accevents import AccEvents
 from app.reports.reportmail import Pimail
 import Queue
+import datetime
 
 TAG = os.path.basename(__file__)
 
@@ -42,6 +43,7 @@ font_small = (None, 10)
 title_frame = tk.Frame()
 bt_frame = tk.Frame()
 id_frame = tk.Frame()
+date_frame = tk.Frame()
 temp_frame = tk.Frame()
 pulse_frame = tk.Frame()
 acc_event_frame = tk.Frame()
@@ -64,27 +66,39 @@ id_text = "Device ID:"
 id_val_string= StringVar()
 id_val_string.set(mDevice_id)
 
-id_title = Label(id_frame, text=id_text, font=font_medium, height=2, width=15)
-id_val = Label( id_frame, textvariable=id_val_string, font=font_medium, height=2, width=35)
+id_title = Label(id_frame, text=id_text, font=font_medium, height=1, width=15)
+id_val = Label( id_frame, textvariable=id_val_string, font=font_medium, height=1, width=35)
 
 id_title.pack(side="left", fill=None,expand=False)
 id_val.pack(side="left", fill=None,expand=False)
 
 id_frame.grid(row=3, sticky=tk.W)
 
+# Date time  frame
+date_text = "Date time:"
+date_val_string= StringVar()
+date_val_string.set("0")
+
+date_title = Label(date_frame, text=date_text, font=font_medium, height=1, width=15)
+date_val = Label( date_frame, textvariable=date_val_string, font=font_medium, height=1, width=35)
+
+date_title.pack(side="left", fill=None,expand=False)
+date_val.pack(side="left", fill=None,expand=False)
+
+date_frame.grid(row=4, sticky=tk.W)
+
 # temp sensor frame
 temp_text = "Body temp:"
 temp_val_string= StringVar()
 temp_val_string.set("0")
 
-temp_title = Label(temp_frame, text=temp_text, font=font_medium, height=2, width=15)
-temp_val = Label( temp_frame, textvariable=temp_val_string, font=font_medium, height=2, width=35)
+temp_title = Label(temp_frame, text=temp_text, font=font_medium, height=1, width=15)
+temp_val = Label( temp_frame, textvariable=temp_val_string, font=font_medium, height=1, width=35)
 
 temp_title.pack(side="left", fill=None,expand=False)
 temp_val.pack(side="left", fill=None,expand=False)
 
-temp_frame.grid(row=4, sticky=tk.W)
-
+temp_frame.grid(row=5, sticky=tk.W)
 
 
 # pulse sensor frame
@@ -92,31 +106,31 @@ pulse_text = "Pulse rate : "
 pulse_val_string= StringVar()
 pulse_val_string.set("0")
 
-pulse_title = Label(pulse_frame, text=pulse_text, font=font_medium, height=2, width=15)
-pulse_val = Label( pulse_frame, textvariable=pulse_val_string, font=font_medium, height=2, width=35)
+pulse_title = Label(pulse_frame, text=pulse_text, font=font_medium, height=1, width=15)
+pulse_val = Label( pulse_frame, textvariable=pulse_val_string, font=font_medium, height=1, width=35)
 
 pulse_title.pack(side="left", fill=None,expand=False)
 pulse_val.pack(side="left", fill=None,expand=False)
 
-pulse_frame.grid(row=5, sticky=tk.W)
+pulse_frame.grid(row=6, sticky=tk.W)
 
 # Accelerometer frame
 acc_event_text = "Last response : "
 acc_event_val_string= StringVar()
 acc_event_val_string.set("0")
 
-acc_event_title = Label(acc_event_frame, text=acc_event_text, font=font_medium, height=2, width=15)
-acc_event_val = Label( acc_event_frame, textvariable=acc_event_val_string, font=font_medium, height=2, width=35)
+acc_event_title = Label(acc_event_frame, text=acc_event_text, font=font_medium, height=1, width=15)
+acc_event_val = Label( acc_event_frame, textvariable=acc_event_val_string, font=font_medium, height=1, width=35)
 
 acc_event_title.pack(side="left", fill=None,expand=False)
 acc_event_val.pack(side="left", fill=None,expand=False)
 
-acc_event_frame.grid(row=6, sticky=tk.W)
+acc_event_frame.grid(row=7, sticky=tk.W)
 
 # report button
 report_button = tk.Button(report_frame, text='Send report', bg='bisque2', font=font_medium, height=2, width=21)
 report_button.pack(side="left",fill=None, expand=False)
-report_frame.grid(row=7, sticky=tk.W)
+report_frame.grid(row=8, sticky=tk.W)
 
 #                   480
 #      +------------------------------+
@@ -177,6 +191,7 @@ def update_ui():
         utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.humi))
         utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.hbeat))
         utils.PLOGD(TAG,"-------- ui_thread " + str(mAcc_event.get_event_str(sens_data.acc_event[1])))
+        date_val_string.set(datetime.datetime.now().strftime("%Y-%B-%d %H:%M:%S"))
         temp_val_string.set(str(sens_data.temp))
         pulse_val_string.set(str(sens_data.hbeat))
 
