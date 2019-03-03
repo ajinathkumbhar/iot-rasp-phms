@@ -30,6 +30,8 @@ qTH = Queue.Queue(maxsize=1)
 qGA = Queue.Queue(maxsize=1)
 qHB = Queue.Queue(maxsize=1)
 qEvents = Queue.Queue(maxsize=10)
+qSensor_data = Queue.Queue(maxsize=5)
+
 # thread list
 lThreadsID = []
 
@@ -143,6 +145,10 @@ class PhmsCore(object):
         while True:
             sdCurrent = SensData()
             self.getSensorData(sdPrevious,sdCurrent)
+
+            if not qSensor_data.full():
+                qSensor_data.put(sdCurrent)
+
             current_time = time.time()
             diff_time = current_time - start_time
             if diff_time >= 15:
