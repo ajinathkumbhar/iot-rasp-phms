@@ -3,7 +3,7 @@ Dear ${PERSON_NAME},
 
 Patient Health Report
 --------------------------
-Patient ID : ${ID}
+Patient/Device ID : ${ID}
 Pulse rate : ${PULSE_RATE}
 Body Temp  : ${TEMP}
 Last patient response : ${GES_EVENT} at ${EVENT_TIME}
