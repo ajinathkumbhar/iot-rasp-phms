@@ -81,11 +81,13 @@ def pulse_data():
 
 
 class PhmsCore(object):
-    def __init__(self):
+    def __init__(self,id):
         self.name = "phmscore"
+        self.device_id = str(id)
 
     def dumpBoardInfo(self):
         utils.PLOGD(TAG, "----------------------")
+        utils.PLOGD(TAG, "Device ID : " + self.device_id)
         utils.PLOGD(TAG, "1." + THSens.getSensorName())
         utils.PLOGD(TAG, "----------------------")
 
@@ -141,9 +143,9 @@ class PhmsCore(object):
 
     def captureSensorDataAndUpdateToDashboard(self):
         start_time = time.time()
-        sdPrevious = SensData()
+        sdPrevious = SensData(self.device_id)
         while True:
-            sdCurrent = SensData()
+            sdCurrent = SensData(self.device_id)
             self.getSensorData(sdPrevious,sdCurrent)
 
             if not qSensor_data.full():
@@ -176,7 +178,7 @@ class PhmsCore(object):
 
 
 
-phms_app = PhmsCore()
+phms_app = PhmsCore(utils.get_device_id())
 
 def signalHandler(sig,frame):
     phms_app.start_app()

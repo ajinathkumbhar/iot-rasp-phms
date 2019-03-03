@@ -17,10 +17,12 @@ import Queue
 TAG = os.path.basename(__file__)
 
 # objects
-mPhms_core = PhmsCore()
+mDevice_id = utils.get_device_id()
+mPhms_core = PhmsCore(mDevice_id)
 mAcc_event = AccEvents()
 mEmail = Pimail()
 qLast_sensor_data = Queue.Queue(maxsize=1)
+
 # thread list to send kill signal
 lThreadsID = []
 
@@ -39,6 +41,7 @@ font_small = (None, 10)
 # frames
 title_frame = tk.Frame()
 bt_frame = tk.Frame()
+id_frame = tk.Frame()
 temp_frame = tk.Frame()
 pulse_frame = tk.Frame()
 acc_event_frame = tk.Frame()
@@ -56,6 +59,19 @@ start_button.pack(side="left",fill=None, expand=False)
 exit_button.pack(side="left",fill=None, expand=False)
 bt_frame.grid(row=2, sticky=tk.W)
 
+# Device ID frame
+id_text = "Device ID:"
+id_val_string= StringVar()
+id_val_string.set(mDevice_id)
+
+id_title = Label(id_frame, text=id_text, font=font_medium, height=2, width=15)
+id_val = Label( id_frame, textvariable=id_val_string, font=font_medium, height=2, width=35)
+
+id_title.pack(side="left", fill=None,expand=False)
+id_val.pack(side="left", fill=None,expand=False)
+
+id_frame.grid(row=3, sticky=tk.W)
+
 # temp sensor frame
 temp_text = "Body temp:"
 temp_val_string= StringVar()
@@ -67,7 +83,9 @@ temp_val = Label( temp_frame, textvariable=temp_val_string, font=font_medium, he
 temp_title.pack(side="left", fill=None,expand=False)
 temp_val.pack(side="left", fill=None,expand=False)
 
-temp_frame.grid(row=3, sticky=tk.W)
+temp_frame.grid(row=4, sticky=tk.W)
+
+
 
 # pulse sensor frame
 pulse_text = "Pulse rate : "
@@ -80,7 +98,7 @@ pulse_val = Label( pulse_frame, textvariable=pulse_val_string, font=font_medium,
 pulse_title.pack(side="left", fill=None,expand=False)
 pulse_val.pack(side="left", fill=None,expand=False)
 
-pulse_frame.grid(row=4, sticky=tk.W)
+pulse_frame.grid(row=5, sticky=tk.W)
 
 # Accelerometer frame
 acc_event_text = "Last response : "
@@ -93,12 +111,12 @@ acc_event_val = Label( acc_event_frame, textvariable=acc_event_val_string, font=
 acc_event_title.pack(side="left", fill=None,expand=False)
 acc_event_val.pack(side="left", fill=None,expand=False)
 
-acc_event_frame.grid(row=5, sticky=tk.W)
+acc_event_frame.grid(row=6, sticky=tk.W)
 
 # report button
 report_button = tk.Button(report_frame, text='Send report', bg='bisque2', font=font_medium, height=2, width=21)
 report_button.pack(side="left",fill=None, expand=False)
-report_frame.grid(row=6, sticky=tk.W)
+report_frame.grid(row=7, sticky=tk.W)
 
 #                   480
 #      +------------------------------+

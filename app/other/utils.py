@@ -1,5 +1,6 @@
 import os
 import datetime
+import random, string
 
 TAG = os.path.basename(__file__)
 prog_name = ''
@@ -40,6 +41,10 @@ def GetVersion():
     """
     version = 'PHMS ' + '- V' + major_ver + '.' + minor_ver
     return version
+
+def get_device_id():
+    id = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(10))
+    return id.upper()
 
 def get_current_time():
     currentDT = datetime.datetime.now()

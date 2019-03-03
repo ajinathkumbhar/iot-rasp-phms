@@ -17,7 +17,7 @@ mEmail = Pimail()
 qSens = Queue.Queue(maxsize=1)
 
 #----------------------------------------
-
+feedDeviceID    = 'phmsdeviceid'
 feedTemp        = 'phmstempstatus'
 feedHumi        = 'phmshumistatus'
 feedPulse       = 'phmspulsestatus'
@@ -84,13 +84,14 @@ class ioAdafruitDash():
         if not self.mClient.is_connected():
             utils.PLOGE(TAG,'Client not connected ... Check setupClient')
             return
-        utils.PLOGD(TAG,"Update dashboard")
+        utils.PLOGD(TAG,"Update dashboard for : " + sd.device_id)
+        self.mClient.publish(feedDeviceID, str(sd.device_id))
         self.mClient.publish(feedTemp, sd.temp)
         self.mClient.publish(feedHumi, sd.humi)
         self.mClient.publish(feedPulse, sd.hbeat)
         self.mClient.publish(feedAccEventTime, sd.acc_event[0])
         self.mClient.publish(feedAccEventName, sd.acc_event[1])
-        self.mClient.publish(feedLastOnline,datetime.datetime.now().strftime("%Y-%B-%d %H:%M:%S"))
+        self.mClient.publish(feedLastOnline, datetime.datetime.now().strftime("%Y-%B-%d %H:%M:%S"))
 
         if not qSens.empty():
             sens = qSens.get()

@@ -59,7 +59,7 @@ class Pimail:
         # For each contact, send the email:
         for name, email in zip(names, emails):
             # add in the actual person name to the message template
-            message = message_template.substitute(SUBJECT="Report 3256AD887WQ",
+            message = message_template.substitute(SUBJECT="Report " + sens_data.device_id ,
                                                   PERSON_NAME=name.title(),
                                                   ID="3256AD887WQ",
                                                   PULSE_RATE=str(sens_data.hbeat),
