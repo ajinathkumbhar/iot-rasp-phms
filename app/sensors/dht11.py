@@ -1,6 +1,6 @@
 import os
 import Adafruit_DHT
-from other import utils
+from app.other import utils
 
 TAG = os.path.basename(__file__)
 sensor= Adafruit_DHT.DHT11

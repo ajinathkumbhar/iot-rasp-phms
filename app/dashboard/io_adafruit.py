@@ -3,11 +3,11 @@
 import random
 import sys
 import time
-from other import utils
+from app.other import utils
 import os
 # Import Adafruit IO MQTT client.
 from Adafruit_IO import MQTTClient
-from reports.reportmail import Pimail
+from app.reports.reportmail import Pimail
 import Queue
 
 TAG = os.path.basename(__file__)
