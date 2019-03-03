@@ -5,6 +5,8 @@ import sys
 import time
 from app.other import utils
 import os
+import datetime
+
 # Import Adafruit IO MQTT client.
 from Adafruit_IO import MQTTClient
 from app.reports.reportmail import Pimail
@@ -19,7 +21,7 @@ qSens = Queue.Queue(maxsize=1)
 feedTemp        = 'phmstempstatus'
 feedHumi        = 'phmshumistatus'
 feedPulse       = 'phmspulsestatus'
-feedAccGyro     = 'phmsaccgyrostatus'
+feedLastOnline  = 'phmsstatus'
 feedAccEventName = 'phmseventname'
 feedAccEventTime = 'phmseventtime'
 feedreport = 'phmsreport'
@@ -88,6 +90,8 @@ class ioAdafruitDash():
         self.mClient.publish(feedPulse, sd.hbeat)
         self.mClient.publish(feedAccEventTime, sd.acc_event[0])
         self.mClient.publish(feedAccEventName, sd.acc_event[1])
+        self.mClient.publish(feedLastOnline,datetime.datetime.now().strftime("%Y-%B-%d %H:%M:%S"))
+
         if not qSens.empty():
             sens = qSens.get()
             utils.PLOGD(TAG,str(sens.temp))
