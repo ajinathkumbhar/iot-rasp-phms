@@ -10,8 +10,8 @@ class Pimail:
     def __init__(self):
         self.__name = "Pimail"
         self.__email_config = os.path.expanduser('~/emailconfig.txt')
-        self.__contacts = os.path.expanduser('reports/contacts.txt')
-        self.__message_template = os.path.expanduser('reports/message.txt')
+        self.__contacts = os.path.expanduser('app/reports/contacts.txt')
+        self.__message_template = os.path.expanduser('app/reports/message.txt')
         self.__sender_id = None
         self.__sender_pass = None
         self.__load_email_config()

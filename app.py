@@ -11,12 +11,16 @@ from phms import qSensor_data
 from Tkinter import *
 import app.other.utils as utils
 from app.sensors.accevents import AccEvents
+from app.reports.reportmail import Pimail
+import Queue
 
 TAG = os.path.basename(__file__)
 
 # objects
 mPhms_core = PhmsCore()
 mAcc_event = AccEvents()
+mEmail = Pimail()
+qLast_sensor_data = Queue.Queue(maxsize=1)
 # thread list to send kill signal
 lThreadsID = []
 
@@ -38,7 +42,7 @@ bt_frame = tk.Frame()
 temp_frame = tk.Frame()
 pulse_frame = tk.Frame()
 acc_event_frame = tk.Frame()
-
+report_frame = tk.Frame()
 
 # Title label frame
 title = Label(title_frame, text="                               PHMS based on IoT", font=font_large, height=2)
@@ -91,6 +95,10 @@ acc_event_val.pack(side="left", fill=None,expand=False)
 
 acc_event_frame.grid(row=5, sticky=tk.W)
 
+# report button
+report_button = tk.Button(report_frame, text='Send report', bg='bisque2', font=font_medium, height=2, width=21)
+report_button.pack(side="left",fill=None, expand=False)
+report_frame.grid(row=6, sticky=tk.W)
 
 #                   480
 #      +------------------------------+
@@ -119,12 +127,34 @@ def signalHandler(sig,frame):
 def run_app():
     mPhms_core.start_app()
 
+
+def send_email():
+    mEmail.send(qLast_sensor_data.get())
+    utils.PLOGD(TAG, "@@@ Report sent ")
+
+def send_report():
+    if qLast_sensor_data.empty():
+        utils.PLOGD(TAG, "@@@ Report data available ")
+        return
+
+    email_thread = threading.Thread(target=send_email)
+    lThreadsID.append(email_thread)
+    email_thread.start()
+
 def update_ui():
     while True:
         if qSensor_data.empty():
             time.sleep(0.1)
             continue
+        report_button.configure(state="normal")
         sens_data = qSensor_data.get()
+
+        if qLast_sensor_data.empty():
+            qLast_sensor_data.put(sens_data)
+        else:
+            qLast_sensor_data.get(sens_data)
+            qLast_sensor_data.put(sens_data)
+
         utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.temp))
         utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.humi))
         utils.PLOGD(TAG,"-------- ui_thread " + str(sens_data.hbeat))
@@ -151,6 +181,7 @@ def start_app():
     ui_thread.start()
     start_button.configure(state="disabled")
 
+
 def exit_app():
     os.kill(os.getpid(), signal.SIGTERM)
 
@@ -160,6 +191,8 @@ def main():
 
     start_button.configure(command=start_app)
     exit_button.configure(command=exit_app)
+    report_button.configure(command=send_report)
+    report_button.configure(state="disabled")
 
 
 if __name__ == "__main__":
