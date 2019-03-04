@@ -23,7 +23,7 @@ def show_dev_info():
     while True:
         olddisplay.testDisplay()
         time.sleep(1)
-        
+
 def main():
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGABRT, signal_handler)

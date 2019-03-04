@@ -14,6 +14,9 @@ from app.sensors.accevents import AccEvents
 from app.reports.reportmail import Pimail
 import Queue
 import datetime
+from app.display.oled_display import OLEDDisplay
+
+olddisplay = OLEDDisplay()
 
 TAG = os.path.basename(__file__)
 
@@ -204,6 +207,12 @@ def update_ui():
             event_str = "None"
         acc_event_val_string.set(event_str)
 
+def board_diagnosis():
+
+    while True:
+        olddisplay.testDisplay()
+        time.sleep(1)
+
 def start_app():
     app_thread = threading.Thread(target=run_app)
     ui_thread = threading.Thread(target=update_ui)
@@ -226,7 +235,9 @@ def main():
     exit_button.configure(command=exit_app)
     report_button.configure(command=send_report)
     report_button.configure(state="disabled")
-
+    board_diag_thread = threading.Thread(target=board_diagnosis)
+    lThreadsID.append(board_diag_thread)
+    board_diag_thread.start()
 
 if __name__ == "__main__":
     main()
