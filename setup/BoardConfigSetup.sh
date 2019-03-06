@@ -1,4 +1,8 @@
 #!/bin/bash
+git clone https://github.com/Elecrow-keen/Elecrow-LCD35.git
+cd Elecrow-LCD35
+sudo ./Elecrow-LCD35
+cd ../
 sudo apt-get update && 
 sudo apt-get install vim openssh-server openssh-client &&
 sudo apt-get install python-pip
