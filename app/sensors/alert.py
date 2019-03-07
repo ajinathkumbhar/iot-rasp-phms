@@ -87,7 +87,6 @@ class Alert(object):
         sleep(blink_delay)  # Sleep for 1 second
 
     def __trigger_buzzer(self,timeout=0.3,beep=False):
-        return
         self.buzzer.off()
         self.buzzer.on()
         sleep(timeout)
